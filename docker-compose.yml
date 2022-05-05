@@ -1,0 +1,32 @@
+version: '3.8'
+
+services: 
+  mariadb:
+    image: mariadb:10.6.5
+    # 以下、要指定
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb
+      - MYSQL_DATABASE=mariadb
+      - MYSQL_USER=mariadb
+      - MYSQL_PASSWORD=mariadb
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./mariadb/mariadb_data:/var/lib/mysql
+    tty: true
+  
+  django:
+    build: ./django
+    # 以下、要指定
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb
+      - MYSQL_DATABASE=mariadb
+      - MYSQL_USER=mariadb
+      - MYSQL_PASSWORD=mariadb
+    volumes:
+      - ./django:/django
+    ports: 
+      - 8000:8000
+    depends_on:
+      - mariadb
+    tty: true
+    command: bash -c "sleep 2 && cd ./django/myproject && python3 manage.py runserver 0.0.0.0:8000"
