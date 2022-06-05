@@ -29,4 +29,4 @@ services:
     depends_on:
       - mariadb
     tty: true
-    command: bash -c "sleep 2 && cd ./django/myproject && python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -c "sleep 2 && python3 manage.py runserver 0.0.0.0:8000"
