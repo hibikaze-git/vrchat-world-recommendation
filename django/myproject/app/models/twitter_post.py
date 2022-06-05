@@ -24,5 +24,11 @@ class TwitterPost(models.Model):
 
     emb_url = models.TextField()
 
+    # 作成日時 ※レコードを作成時に自動設定
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # 更新日時 ※レコードを更新時に自動設定
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self) -> str:
         return self.text
