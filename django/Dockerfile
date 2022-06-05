@@ -1,5 +1,7 @@
 FROM python:3.8.12
 
+WORKDIR /django/myproject
+
 RUN apt-get update && apt-get upgrade -y \
  && pip install -U pip
 
