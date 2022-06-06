@@ -21,4 +21,7 @@ urlpatterns = [
 
     # app用urls
     path('', include('app.urls')),
+
+    # accounts用
+    path('', include('accounts.urls')),
 ]

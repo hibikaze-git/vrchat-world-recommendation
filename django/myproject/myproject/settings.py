@@ -41,7 +41,11 @@ INSTALLED_APPS = [
 
     # add own
     'app.apps.AppConfig',
+    'accounts.apps.AccountsConfig',
 ]
+
+# Userモデルの設定
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
