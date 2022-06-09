@@ -6,7 +6,7 @@
     {% block header %}
         <!-- Header-->
         <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container px-4 px-lg-5 my-3">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">VRChat World Recommender</h1>
                     <p class="lead fw-normal text-white-50 mb-0">VRChatワールドへの"好き"の傾向から、あなたにおすすめのワールドを推薦します</p>
@@ -17,13 +17,14 @@
     {% block contents %}
         <!-- Section-->
         <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
+            <div class="container px-4 px-lg-5 mt-2">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {% for record in orderby_records %}
                         <div class="col mb-5">
                             <div class="card h-100">
                                 {{record.emb_html | safe}}
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">お気に入り</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">カテゴリ</a></div>
                             </div>
                         </div>
                     {% endfor %}
