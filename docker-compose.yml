@@ -25,11 +25,12 @@ services:
       - DEFAULT_FROM_EMAIL=
       - EMAIL_HOST_USER=
       - EMAIL_HOST_PASSWORD=
+      - BEARER_TOKEN=
     volumes:
       - ./django:/django
     ports: 
       - 8000:8000
     depends_on:
       - mariadb
-    tty: true
+    #tty: true
     command: bash -c "sleep 2 && python3 manage.py runserver 0.0.0.0:8000"

@@ -12,3 +12,5 @@ RUN pip install django==4.0.2
 RUN pip install mysqlclient==2.1.0
 
 RUN pip install pillow==9.1.1
+
+RUN pip install requests
