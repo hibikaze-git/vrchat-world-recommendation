@@ -19,7 +19,7 @@ class RecentSearch():
             'expansions': 'author_id,attachments.media_keys',
             'media.fields': 'media_key,preview_image_url,type,url',
             'user.fields': 'username',
-            #'max_results' : 100,
+            'max_results': 100,
         }
 
     def bearer_oauth(self, r):
@@ -42,8 +42,15 @@ class RecentSearch():
     def main(self):
         json_response = self.connect_to_endpoint(self.search_url, params=self.query_params)
 
-        print("test")
-
-        print(json.dumps(json_response, indent=4, sort_keys=True, ensure_ascii=False))
-
         return json_response
+
+    def get_emb_html(self, embed_url):
+        print(embed_url)
+
+        response = requests.get(embed_url)
+
+        json_data = response.json()
+
+        print(json_data)
+
+        return json_data.get("html")

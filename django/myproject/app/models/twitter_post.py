@@ -3,9 +3,10 @@ from django.db import models
 
 # Create your models here.
 class TwitterPost(models.Model):
-    
+
     tweet_id = models.CharField(
         max_length=256,
+        unique=True
     )
 
     author_id = models.CharField(
