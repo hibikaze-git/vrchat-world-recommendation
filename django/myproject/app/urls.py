@@ -5,6 +5,9 @@ from .views.twitter_view import update_twitter_post
 app_name = 'app'
 
 urlpatterns = [
+    # トップページ
     path('', IndexView.as_view(), name='index'),
+
+    # ワールド投稿取得
     path('twitter/recent/', update_twitter_post, name='recent'),
 ]

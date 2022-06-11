@@ -1,9 +1,11 @@
-import requests
 import os
-import json
+import requests
 
 
 class RecentSearch():
+    """
+    twitter apiにリクエストし、最新の投稿を取得
+    """
     def __init__(self) -> None:
         # To set your environment variables in your terminal run the following line:
         # export 'BEARER_TOKEN'='<your_bearer_token>'
@@ -26,26 +28,26 @@ class RecentSearch():
         """
         Method required by bearer token authentication.
         """
-
         r.headers["Authorization"] = f"Bearer {self.bearer_token}"
         r.headers["User-Agent"] = "v2RecentSearchPython"
         return r
 
     def connect_to_endpoint(self, url, params):
-        print(self.bearer_token)
         response = requests.get(url, auth=self.bearer_oauth, params=params)
-        print(response.status_code)
+
         if response.status_code != 200:
             raise Exception(response.status_code, response.text)
+
         return response.json()
 
     def main(self):
         json_response = self.connect_to_endpoint(self.search_url, params=self.query_params)
 
+        print(json_response)
+
         return json_response
 
     def get_emb_html(self, embed_url):
-        print(embed_url)
 
         response = requests.get(embed_url)
 
