@@ -16,19 +16,22 @@
     {% endblock %}
     {% block contents %}
         <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-2">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    {% for record in orderby_records %}
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                {{record.emb_html | safe}}
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">お気に入り</a></div>
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">カテゴリ</a></div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+        <div class="px-5 py-4 text-end">
+            <form action="#" method="post">
+                <input type="search" name="search" placeholder="キーワードを入力">
+                <input type="submit" name="submit" value="検索">
+            </form>
+        </div>
+        <section class="px-4 px-lg-5 pb-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
+            <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-xxl-6 justify-content-center"> -->
+                {% for record in orderby_records %}
+                    <div class="align-items-center">
+                        {{record.emb_html | safe}}
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">お気に入り</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">カテゴリ</a></div>
+                    </div>
+                {% endfor %}
             </div>
         </section>
         {% include "pagination.html" %}

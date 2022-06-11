@@ -66,7 +66,7 @@ def update_twitter_post(request):
             media_urls = "none"
 
         # 埋め込み用htmlを取得
-        emb_url = f"https://publish.twitter.com/oembed?url=https://twitter.com/{username}/status/{tweet_id}&hide_thread=true"
+        emb_url = f"https://publish.twitter.com/oembed?url=https://twitter.com/{username}/status/{tweet_id}&hide_thread=true&align=center"
 
         emb_html = recent_search_instance.get_emb_html(emb_url)
 
