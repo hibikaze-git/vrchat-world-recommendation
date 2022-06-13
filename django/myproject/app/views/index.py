@@ -14,4 +14,4 @@ class IndexView(ListView):
 
     queryset = TwitterPost.objects.order_by("-created_at")
 
-    paginate_by = 20
+    paginate_by = 18
