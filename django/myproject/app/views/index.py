@@ -41,7 +41,7 @@ def LikeView(request):
             liked = True
 
         context = {
-            'twitter_id': twitter_post.id,
+            'twitter_post_id': twitter_post.id,
             'liked': liked,
         }
 
