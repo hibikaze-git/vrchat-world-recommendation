@@ -33,12 +33,10 @@
                 {% for record in orderby_records %}
                     <div class="align-items-center">
                         {{record.emb_html | safe}}
-                        <div class="d-flex justify-content-center gap-2 flex-wrap mb-5">
-                            <div class="like-outer">
-                                {% include 'like.html' %}
-                            </div>
-                            <a class="btn btn-outline-dark mt-auto" href="#">訪問済み</a>
-                            <a class="btn btn-outline-dark mt-auto" href="#">カテゴリ</a>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            {% include 'like.html' %}
+                            <a class="btn btn-outline-dark" href="#">訪問済み</a>
+                            <a class="btn btn-outline-dark" href="#">カテゴリ</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -50,7 +48,6 @@
             $(document).ready(function(event){
                 $(document).on('click', '#like', function(event){
                     event.preventDefault();
-                    console.log("^^^^^^^^^^^^^^^^^^^^^");
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:like' %}",
@@ -61,10 +58,10 @@
                         success: function(response){
                             selector = document.getElementsByName(response.twitter_post_id);
                             if(response.liked){
-                                $(selector).html("<i class='fas fa-heart'></i>");
+                                $(selector).html("<i class='fas fa-star fa-lg' style='color:#FFCC00'></i>");
                             }
                             else {
-                                $(selector).html("<i class='far fa-heart'></i>");
+                                $(selector).html("<i class='far fa-star fa-lg'></i>");
                             }
                         }
                     });
