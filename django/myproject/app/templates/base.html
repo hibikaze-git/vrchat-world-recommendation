@@ -39,7 +39,9 @@
                         {% endif %}
 
                     </ul>
-                    <a class="btn btn-outline-dark" href="{% url 'app:recent' %}">データ更新</a>
+                    {% if request.user.is_superuser %}
+                        <a class="btn btn-outline-dark" href="{% url 'app:recent' %}">データ更新</a>
+                    {% endif %}
                 </div>
             </div>
         </nav>

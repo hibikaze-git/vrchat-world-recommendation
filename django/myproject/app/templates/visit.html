@@ -1,0 +1,8 @@
+<form action="{% url 'app:visit' %}" method="POST">
+    {% csrf_token %}
+    {% if record.id in visited_list %}
+        <button id="visit" name="visit_{{record.id}}" class="btn btn-outline-dark">訪問済</button>
+    {% else %}
+        <button id="visit" name="visit_{{record.id}}" class="btn btn-outline-dark">未訪問</button>      
+    {% endif %}
+</form>

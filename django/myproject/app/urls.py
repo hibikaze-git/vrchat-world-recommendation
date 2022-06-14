@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.index import IndexView, LikeView
+from .views.index import IndexView, LikeView, visit_view
 from .views.twitter_view import update_twitter_post
 
 app_name = 'app'
@@ -13,4 +13,7 @@ urlpatterns = [
 
     # お気に入り機能
     path('like', LikeView, name='like'),
+
+    # お気に入り機能
+    path('visit', visit_view, name='visit'),
 ]

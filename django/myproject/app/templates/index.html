@@ -33,11 +33,13 @@
                 {% for record in orderby_records %}
                     <div class="align-items-center">
                         {{record.emb_html | safe}}
-                        <div class="d-flex justify-content-center gap-2 flex-wrap">
-                            {% include 'like.html' %}
-                            <a class="btn btn-outline-dark" href="#">訪問済み</a>
-                            <a class="btn btn-outline-dark" href="#">カテゴリ</a>
-                        </div>
+                        {% if not request.user.is_anonymous %}
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                {% include 'like.html' %}
+                                {% include 'visit.html' %}
+                                <a class="btn btn-outline-dark" href="#">カテゴリ</a>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -62,6 +64,30 @@
                             }
                             else {
                                 $(selector).html("<i class='far fa-star fa-lg'></i>");
+                            }
+                        }
+                    });
+                });
+            });
+            $(document).ready(function(event){
+                $(document).on('click', '#visit', function(event){
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:visit' %}",
+                        data: {
+                            'twitter_post_id': $(this).attr('name'),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                        dataType: 'json',
+                        success: function(response){
+                            select_name = "visit_" + response.twitter_post_id;
+
+                            selector = document.getElementsByName(select_name);
+                            if(response.visited){
+                                $(selector).html("訪問済");
+                            }
+                            else {
+                                $(selector).html("未訪問");
                             }
                         }
                     });

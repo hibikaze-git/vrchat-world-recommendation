@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from ..models.twitter_post import TwitterPost
 from ..models.twitter_like import TwitterLike
-
+from ..models.twitter_visit import TwitterVisit
 
 class IndexView(ListView):
     """
@@ -23,6 +23,8 @@ class IndexView(ListView):
         context = super().get_context_data(*args, **kwargs)
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=self.request.user.id).values_list("twitter_post", flat=True))
+
+        context["visited_list"] = list(TwitterVisit.objects.filter(user=self.request.user.id).values_list("twitter_post", flat=True))
 
         return context
 
@@ -43,6 +45,29 @@ def LikeView(request):
         context = {
             'twitter_post_id': twitter_post.id,
             'liked': liked,
+        }
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse(context)
+
+
+def visit_view(request):
+    if request.method == "POST":
+        get_id = int(request.POST.get('twitter_post_id').replace("visit_", ""))
+        twitter_post = get_object_or_404(TwitterPost, pk=get_id)
+        user = request.user
+        visited = False
+        visit = TwitterVisit.objects.filter(twitter_post=twitter_post, user=user)
+
+        if visit.exists():
+            visit.delete()
+        else:
+            visit.create(twitter_post=twitter_post, user=user)
+            visited = True
+
+        context = {
+            'twitter_post_id': twitter_post.id,
+            'visited': visited,
         }
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
