@@ -40,7 +40,7 @@
                         {{record.emb_html | safe}}
                         {% if not request.user.is_anonymous %}
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                <div name="user_like_{{recour.id}}">
+                                <div name="user_like_{{record.id}}">
                                     {% include 'like.html' %}
                                 </div>
                                 {% include 'visit.html' %}
@@ -57,28 +57,26 @@
             $(document).ready(function(event){
                 $(document).on('click', '#like', function(event){
                     event.preventDefault();
+                    let twitter_post_id = $(this).attr('name');
+
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:like' %}",
                         data: {
                             'twitter_post_id': $(this).attr('name'),
                             'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                        dataType: 'json',
+
                         success: function(response){
-                            selectorLike = document.getElementsByName(response.twitter_post_id);
-                            selectorLikeCategory = document.getElementsByName("like_category_" + response.twitter_post_id);
-                            //selectorUserLike = document.getElementsByName("user_like_" + response.twitter_post_id);
 
-                            //selectorUserLike.html(response)
+                            console.log("user_like_" + twitter_post_id)
+                            selectorUserLike = document.getElementsByName("user_like_" + twitter_post_id);
 
-                            if(response.liked){
-                                $(selectorLike).html("<i class='fas fa-star fa-lg' style='color:#FFCC00'></i>");
-                                $(selectorLikeCategory).html("");
-                            }
-                            else {
-                                $(selectorLike).html("<i class='far fa-star fa-lg'></i>");
-                                $(selectorLikeCategory).html("");
-                            }
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
                         }
                     });
                 });

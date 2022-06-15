@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 from django.http import JsonResponse
 
@@ -39,26 +39,27 @@ def LikeView(request):
     if request.method == "POST":
         twitter_post = get_object_or_404(TwitterPost, pk=request.POST.get('twitter_post_id'))
         user = request.user
-        liked = False
         like = TwitterLike.objects.filter(twitter_post=twitter_post, user=user)
 
         if like.exists():
             like.delete()
         else:
             like.create(twitter_post=twitter_post, user=user)
-            liked = True
 
         context = {
             'twitter_post_id': twitter_post.id,
-            'liked': liked,
+            'record': twitter_post
         }
 
-        #context["category_objects"] = TwitterCategory.objects.filter(user=user)
+        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
 
-        #context["liked_objects"] = TwitterLike.objects.filter(user=user)
+        context["category_objects"] = TwitterCategory.objects.filter(user=user)
+
+        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse(context)
+
+        return render(request, template_name="like.html", context=context)
 
 
 def visit_view(request):
