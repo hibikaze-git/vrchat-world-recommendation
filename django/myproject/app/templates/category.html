@@ -1,17 +1,19 @@
 <!-- カテゴリプルダウン-->
 
 {% load twitter_like_tags %}
-<select name="category-select">
+<select name="category-select_{{record.id}}">
 
     {% if liked_objects|return_category:record is None %}
-        <option value="none" selected>-</option>
+        <option value="-1" selected>-</option>
+    {% else %}
+        <option value="-1">-</option>
     {% endif %}
 
     {% for category_object in category_objects %}
         {% if category_object == liked_objects|return_category:record %}
-            <option value="{{category}}" selected>{{category_object.category}}</option>
+            <option value="{{category_object.id}}" selected>{{category_object.category}}</option>
         {% else %}
-            <option value="{{category}}">{{category_object.category}}</option>
+            <option value="{{category_object.id}}">{{category_object.category}}</option>
         {% endif %}
     {% endfor %}
 

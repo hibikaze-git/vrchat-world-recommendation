@@ -83,3 +83,30 @@ def visit_view(request):
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse(context)
+
+
+def change_category_view(request):
+    if request.method == "POST":
+        get_id = int(request.POST.get('twitter_post_id').replace("category-select_", ""))
+        get_category_id = int(request.POST.get('selected_category_id'))
+
+        twitter_post = get_object_or_404(TwitterPost, pk=get_id)
+        user = request.user
+
+        like = TwitterLike.objects.filter(twitter_post=twitter_post, user=user).first()
+
+        categories = TwitterCategory.objects.filter(user=user).values_list("id", flat=True)
+
+        if get_category_id not in categories:
+            like.category = None
+            like.save()
+        else:
+            like.category = TwitterCategory.objects.filter(user=user, id=get_category_id).first()
+            like.save()
+
+        context = {
+            'twitter_post_id': twitter_post.id,
+        }
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse(context)
