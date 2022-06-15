@@ -39,7 +39,7 @@
                     <div class="align-items-center">
                         {{record.emb_html | safe}}
                         {% if not request.user.is_anonymous %}
-                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <div class="d-flex justify-content-center gap-2 flex-wrap pb-5">
                                 <div name="user_like_{{record.id}}">
                                     {% include 'like.html' %}
                                 </div>
@@ -95,10 +95,10 @@
 
                             selector = document.getElementsByName(select_name);
                             if(response.visited){
-                                $(selector).html("訪問済");
+                                $(selector).html(' <i class="fa-solid fa-calendar-check fa-lg" title="訪問済み"></i>');
                             }
                             else {
-                                $(selector).html("未訪問");
+                                $(selector).html('<i class="fa-solid fa-calendar-minus fa-lg" title="未訪問"></i>');
                             }
                         }
                     });
