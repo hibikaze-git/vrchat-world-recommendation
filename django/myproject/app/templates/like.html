@@ -1,14 +1,24 @@
 <!-- お気に入り・カテゴリボタン-->
+
 <form action="{% url 'app:like' %}" method="POST">
     {% csrf_token %}
     {% if record.id in liked_list %}
         <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <button id="like" name="{{record.id}}" class="btn btn-outline-dark"><i class="fas fa-star fa-lg" style="color:#FFCC00"></i></button>
-            <div id="like_category" name="like_category_{{record.id}}"><a class="btn btn-outline-dark" href="#">カテゴリ</a></div>
+            <!-- お気に入りボタン-->
+            <button id="like" name="{{record.id}}" class="btn btn-outline-dark">
+                <i class="fas fa-star fa-lg" style="color:#FFCC00"></i>
+            </button>
+
+            <!-- カテゴリプルダウン-->
+            <div id="like_category" name="like_category_{{record.id}}">
+                {% include "category.html" %}
+            </div> 
         </div>
     {% else %}
         <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <button id="like" name="{{record.id}}" class="btn btn-outline-dark"><i class="far fa-star fa-lg"></i></button>      
+            <button id="like" name="{{record.id}}" class="btn btn-outline-dark">
+                <i class="far fa-star fa-lg"></i>
+            </button>      
             <div id="like_category" name="like_category_{{record.id}}"></div>
         </div>
     {% endif %}

@@ -1,8 +1,11 @@
 <!--ベーステンプレート-->
 {% extends "base.html" %}
+
 <!--静的ファイルをロード-->
 {% load static %}
+
 {% block title %}VRChat World Recommender{% endblock %}
+
     {% block header %}
         <!-- Header-->
         <header class="bg-dark py-5">
@@ -14,10 +17,11 @@
             </div>
         </header>
     {% endblock %}
+
     {% block contents %}
+        <!-- 検索バー-->
         <div class="px-5 py-4 text-end">
             <form action="#" method="post">
-                <!-- 検索バー-->
                 <select name="search-select">
                     <option value="all">全て</option>
                     <option value="favorite">お気に入り</option>
@@ -27,6 +31,7 @@
                 <input type="submit" name="submit" value="検索">
             </form>
         </div>
+
         <!-- 一覧-->
         <section class="px-4 px-lg-5 pb-5">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
@@ -35,7 +40,9 @@
                         {{record.emb_html | safe}}
                         {% if not request.user.is_anonymous %}
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                {% include 'like.html' %}
+                                <div name="user_like_{{recour.id}}">
+                                    {% include 'like.html' %}
+                                </div>
                                 {% include 'visit.html' %}
                             </div>
                         {% endif %}
@@ -60,10 +67,13 @@
                         success: function(response){
                             selectorLike = document.getElementsByName(response.twitter_post_id);
                             selectorLikeCategory = document.getElementsByName("like_category_" + response.twitter_post_id);
+                            //selectorUserLike = document.getElementsByName("user_like_" + response.twitter_post_id);
+
+                            //selectorUserLike.html(response)
 
                             if(response.liked){
                                 $(selectorLike).html("<i class='fas fa-star fa-lg' style='color:#FFCC00'></i>");
-                                $(selectorLikeCategory).html("<a class='btn btn-outline-dark' href='#'>カテゴリ</a>");
+                                $(selectorLikeCategory).html("");
                             }
                             else {
                                 $(selectorLike).html("<i class='far fa-star fa-lg'></i>");

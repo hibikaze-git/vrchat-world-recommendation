@@ -1,10 +1,12 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.http import JsonResponse
 
 from ..models.twitter_post import TwitterPost
 from ..models.twitter_like import TwitterLike
 from ..models.twitter_visit import TwitterVisit
+from ..models.twitter_category import TwitterCategory
+
 
 class IndexView(ListView):
     """
@@ -26,6 +28,10 @@ class IndexView(ListView):
 
         context["visited_list"] = list(TwitterVisit.objects.filter(user=self.request.user.id).values_list("twitter_post", flat=True))
 
+        context["category_objects"] = TwitterCategory.objects.filter(user=self.request.user.id)
+
+        context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
+
         return context
 
 
@@ -46,6 +52,10 @@ def LikeView(request):
             'twitter_post_id': twitter_post.id,
             'liked': liked,
         }
+
+        #context["category_objects"] = TwitterCategory.objects.filter(user=user)
+
+        #context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse(context)

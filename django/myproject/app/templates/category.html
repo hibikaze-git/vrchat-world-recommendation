@@ -1,0 +1,18 @@
+<!-- カテゴリプルダウン-->
+
+{% load twitter_like_tags %}
+<select name="category-select">
+
+    {% if liked_objects|return_category:record is None %}
+        <option value="none" selected>-</option>
+    {% endif %}
+
+    {% for category_object in category_objects %}
+        {% if category_object == liked_objects|return_category:record %}
+            <option value="{{category}}" selected>{{category_object.category}}</option>
+        {% else %}
+            <option value="{{category}}">{{category_object.category}}</option>
+        {% endif %}
+    {% endfor %}
+
+</select>
