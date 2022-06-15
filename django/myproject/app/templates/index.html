@@ -11,7 +11,7 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-3">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">VRChat World Recommender</h1>
+                    <h1 class="display-5 fw-bolder">VRChat World Recommender</h1>
                     <p class="lead fw-normal text-white-50 mb-0">VRChatワールドへの"好き"の傾向から、あなたにおすすめのワールドを推薦します</p>
                 </div>
             </div>
@@ -20,7 +20,7 @@
 
     {% block contents %}
         <!-- 検索バー-->
-        <div class="px-5 py-4 text-end">
+        <div class="px-6 py-4 text-end">
             <form action="#" method="post">
                 <select name="search-select">
                     <option value="all">全て</option>
@@ -33,17 +33,17 @@
         </div>
 
         <!-- 一覧-->
-        <section class="px-4 px-lg-5 pb-5">
+        <section class="px-6 pb-5">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
                 {% for record in orderby_records %}
                     <div class="align-items-center">
                         {{record.emb_html | safe}}
                         {% if not request.user.is_anonymous %}
                             <div class="d-flex justify-content-center gap-2 flex-wrap pb-5">
+                                {% include 'visit.html' %}
                                 <div name="user_like_{{record.id}}">
                                     {% include 'like.html' %}
                                 </div>
-                                {% include 'visit.html' %}
                             </div>
                         {% endif %}
                     </div>
@@ -95,10 +95,10 @@
 
                             selector = document.getElementsByName(select_name);
                             if(response.visited){
-                                $(selector).html(' <i class="fa-solid fa-calendar-check fa-lg" title="訪問済み"></i>');
+                                $(selector).html(' <i class="fa-solid fa-calendar-check" title="訪問済み"></i>');
                             }
                             else {
-                                $(selector).html('<i class="fa-solid fa-calendar-minus fa-lg" title="未訪問"></i>');
+                                $(selector).html('<i class="fa-solid fa-calendar-minus" title="未訪問"></i>');
                             }
                         }
                     });

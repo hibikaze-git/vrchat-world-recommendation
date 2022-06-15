@@ -891,7 +891,7 @@ progress {
   --bs-gutter-y: 3rem;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 750px) {
   .col-sm {
     flex: 1 0 0%;
   }
@@ -1104,7 +1104,7 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1100px) {
   .col-md {
     flex: 1 0 0%;
   }
@@ -1317,7 +1317,7 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1500px) {
   .col-lg {
     flex: 1 0 0%;
   }
@@ -1743,7 +1743,7 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
-@media (min-width: 2000px) {
+@media (min-width: 2100px) {
   .col-xxl {
     flex: 1 0 0%;
   }
@@ -11285,4 +11285,28 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+
+/*!
+* own css
+*/
+.own-select-width {
+  width: 200px;
+}
+
+.transform-scale-all {
+  zoom: 0.9;
+}
+
+.px-6 {
+  padding-right: 5rem !important;
+  padding-left: 5rem !important;
+}
+
+.own-like-padding {
+  padding: 0.2rem 0.4rem;
+}
+
+.own-visit-padding {
+  padding: 0.2rem 0.5rem;
 }

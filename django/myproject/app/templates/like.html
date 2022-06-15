@@ -3,10 +3,10 @@
 <form action="{% url 'app:like' %}" method="POST">
     {% csrf_token %}
     {% if record.id in liked_list %}
-        <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <div class="d-flex justify-content-center gap-2 flex-wrap align-items-center">
             <!-- お気に入りボタン-->
-            <button id="like" name="{{record.id}}" class="btn btn-outline-dark" title="お気に入り登録済み">
-                <i class="fa-solid fa-star fa-lg" style="color:#FFCC00"></i>
+            <button id="like" name="{{record.id}}" class="btn btn-outline-dark own-like-padding" title="お気に入り登録済み">
+                <i class="fa-solid fa-star" style="color:#FFCC00"></i>
             </button>
 
             <!-- カテゴリプルダウン-->
@@ -15,9 +15,9 @@
             </div> 
         </div>
     {% else %}
-        <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <button id="like" name="{{record.id}}" class="btn btn-outline-dark" title="お気に入りに登録">
-                <i class="fa-regular fa-star fa-lg"></i>
+        <div class="d-flex justify-content-center gap-2 flex-wrap align-items-center">
+            <button id="like" name="{{record.id}}" class="btn btn-outline-dark own-like-padding" title="お気に入りに登録">
+                <i class="fa-regular fa-star"></i>
             </button>      
             <div id="like_category" name="like_category_{{record.id}}"></div>
         </div>
