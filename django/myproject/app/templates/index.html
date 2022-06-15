@@ -15,9 +15,9 @@
         </header>
     {% endblock %}
     {% block contents %}
-        <!-- Section-->
         <div class="px-5 py-4 text-end">
             <form action="#" method="post">
+                <!-- 検索バー-->
                 <select name="search-select">
                     <option value="all">全て</option>
                     <option value="favorite">お気に入り</option>
@@ -27,9 +27,9 @@
                 <input type="submit" name="submit" value="検索">
             </form>
         </div>
+        <!-- 一覧-->
         <section class="px-4 px-lg-5 pb-5">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
-            <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-xxl-6 justify-content-center"> -->
                 {% for record in orderby_records %}
                     <div class="align-items-center">
                         {{record.emb_html | safe}}
@@ -37,7 +37,6 @@
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
                                 {% include 'like.html' %}
                                 {% include 'visit.html' %}
-                                <a class="btn btn-outline-dark" href="#">カテゴリ</a>
                             </div>
                         {% endif %}
                     </div>
@@ -47,6 +46,7 @@
         {% include "pagination.html" %}
 
         <script type="text/javascript">
+            // お気に入り
             $(document).ready(function(event){
                 $(document).on('click', '#like', function(event){
                     event.preventDefault();
@@ -58,17 +58,23 @@
                             'csrfmiddlewaretoken': '{{ csrf_token }}'},
                         dataType: 'json',
                         success: function(response){
-                            selector = document.getElementsByName(response.twitter_post_id);
+                            selectorLike = document.getElementsByName(response.twitter_post_id);
+                            selectorLikeCategory = document.getElementsByName("like_category_" + response.twitter_post_id);
+
                             if(response.liked){
-                                $(selector).html("<i class='fas fa-star fa-lg' style='color:#FFCC00'></i>");
+                                $(selectorLike).html("<i class='fas fa-star fa-lg' style='color:#FFCC00'></i>");
+                                $(selectorLikeCategory).html("<a class='btn btn-outline-dark' href='#'>カテゴリ</a>");
                             }
                             else {
-                                $(selector).html("<i class='far fa-star fa-lg'></i>");
+                                $(selectorLike).html("<i class='far fa-star fa-lg'></i>");
+                                $(selectorLikeCategory).html("");
                             }
                         }
                     });
                 });
             });
+            
+            // 訪問済み
             $(document).ready(function(event){
                 $(document).on('click', '#visit', function(event){
                     event.preventDefault();
@@ -93,5 +99,7 @@
                     });
                 });
             });
+
         </script>
+
     {% endblock %}
