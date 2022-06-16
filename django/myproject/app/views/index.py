@@ -2,6 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 from django.http import JsonResponse
 
+# Pagination
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from ..models.twitter_post import TwitterPost
 from ..models.twitter_like import TwitterLike
 from ..models.twitter_visit import TwitterVisit
@@ -17,9 +20,7 @@ class IndexView(ListView):
 
     context_object_name = "orderby_records"
 
-    queryset = TwitterPost.objects.order_by("-created_at")
-
-    paginate_by = 18
+    paginate_by = 15
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -33,6 +34,21 @@ class IndexView(ListView):
         context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
 
         return context
+
+    def get_queryset(self):
+        queryset = TwitterPost.objects.order_by("-created_at")
+
+        paginator = Paginator(queryset, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+
+        return queryset
 
 
 def LikeView(request):
