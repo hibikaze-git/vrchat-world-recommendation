@@ -52,6 +52,9 @@ def update_twitter_post(request):
         text = data.get("text")
         media_keys = attachments.get("media_keys")
 
+        if media_keys is None:
+            continue
+
         # 画像等のurlの一覧をリストにする
         media_list = []
 
