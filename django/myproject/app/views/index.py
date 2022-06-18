@@ -148,7 +148,7 @@ def new_category_view(request):
 def back_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id').replace("back-category_", ""))
+        get_id = int(request.POST.get('twitter_post_id'))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
