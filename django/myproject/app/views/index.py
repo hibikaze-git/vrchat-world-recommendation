@@ -130,27 +130,7 @@ def change_category_view(request):
 
 def new_category_view(request):
     if request.method == "POST":
-        """
-        twitter_post = get_object_or_404(TwitterPost, pk=request.POST.get('twitter_post_id'))
-        user = request.user
-        like = TwitterLike.objects.filter(twitter_post=twitter_post, user=user)
 
-        if like.exists():
-            like.delete()
-        else:
-            like.create(twitter_post=twitter_post, user=user)
-
-        context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
-        }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
-        """
         get_id = int(request.POST.get('twitter_post_id').replace("category-new_", ""))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
@@ -172,6 +152,41 @@ def back_category_view(request):
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
+
+        context = {
+            'twitter_post_id': twitter_post.id,
+            'record': twitter_post
+        }
+
+        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
+
+        context["category_objects"] = TwitterCategory.objects.filter(user=user)
+
+        context["liked_objects"] = TwitterLike.objects.filter(user=user)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+
+        return render(request, template_name="category.html", context=context)
+
+
+def create_category_view(request):
+    if request.method == "POST":
+
+        get_id = int(request.POST.get('twitter_post_id').replace("create-category_", ""))
+        new_category_name = request.POST.get('new_category_name')
+
+        twitter_post = get_object_or_404(TwitterPost, pk=get_id)
+        user = request.user
+
+        exist_check = TwitterCategory.objects.filter(user=user, category=new_category_name).first()
+
+        if exist_check is not None or new_category_name == "":
+            raise
+        else:
+            new_category = TwitterCategory.objects.create(user=user, category=new_category_name)
+            twitter_like = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first()
+            twitter_like.category = new_category
+            twitter_like.save()
 
         context = {
             'twitter_post_id': twitter_post.id,
