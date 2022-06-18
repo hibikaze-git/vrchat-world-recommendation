@@ -105,7 +105,7 @@
                 });
 
                 // カテゴリ選択
-                $(document.querySelectorAll("[name^='category-select_']")).on('change', function(event){
+                $(document).on('change', "[name^='category-select_']", function(event){
                     event.preventDefault();
                     $.ajax({
                         type: 'POST',
@@ -115,6 +115,60 @@
                             "selected_category_id": $(this).val(),
                             'csrfmiddlewaretoken': '{{ csrf_token }}'},
                         dataType: 'json'
+                    });
+                });
+
+                $(document).on('click', '#category-new', function(event){
+                    event.preventDefault();
+                    let twitter_post_id = $(this).attr('name');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:new_category' %}",
+                        data: {
+                            'twitter_post_id': $(this).attr('name'),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+
+                        success: function(response){
+                            console.log("like_category_" + twitter_post_id)
+
+                            twitter_post_id = twitter_post_id.split("_")[1];
+
+                            selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
+
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
+                        }
+                    });
+                });
+
+                $(document).on('click', '#back-category', function(event){
+                    event.preventDefault();
+                    let twitter_post_id = $(this).attr('name');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:back_category' %}",
+                        data: {
+                            'twitter_post_id': $(this).attr('name'),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+
+                        success: function(response){
+                            twitter_post_id = twitter_post_id.split("_")[1];
+
+                            selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
+
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
+                        }
                     });
                 });
                 

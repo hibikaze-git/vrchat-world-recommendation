@@ -1,20 +1,29 @@
 <!-- カテゴリプルダウン-->
 
 {% load twitter_like_tags %}
-<select name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
+<div class="d-flex">
+    <select name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
 
-    {% if liked_objects|return_category:record is None %}
-        <option value="-1" selected>-</option>
-    {% else %}
-        <option value="-1">-</option>
-    {% endif %}
-
-    {% for category_object in category_objects %}
-        {% if category_object == liked_objects|return_category:record %}
-            <option value="{{category_object.id}}" selected>{{category_object.category}}</option>
+        {% if liked_objects|return_category:record is None %}
+            <option value="-1" selected>-</option>
         {% else %}
-            <option value="{{category_object.id}}">{{category_object.category}}</option>
+            <option value="-1">-</option>
         {% endif %}
-    {% endfor %}
 
-</select>
+        {% for category_object in category_objects %}
+            {% if category_object == liked_objects|return_category:record %}
+                <option value="{{category_object.id}}" selected>{{category_object.category}}</option>
+            {% else %}
+                <option value="{{category_object.id}}">{{category_object.category}}</option>
+            {% endif %}
+        {% endfor %}
+
+    </select>
+
+    <button id="category-new" name="category-new_{{record.id}}" class="btn own-like-padding" title="カテゴリ追加">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+    <button id="category-edit" name="category-edit_{{record.id}}" class="btn own-like-padding" title="カテゴリ編集">
+        <i class="fa-solid fa-pen-to-square"></i>
+    </button>
+</div>
