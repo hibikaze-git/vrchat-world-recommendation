@@ -11316,3 +11316,7 @@ textarea.form-control-lg {
   background-position: 37% 67%;
   background-size: 120%;
 }
+
+.own-search {
+  justify-content: flex-end;
+}

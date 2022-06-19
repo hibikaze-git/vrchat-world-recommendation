@@ -22,8 +22,11 @@
 
     {% block contents %}
         <!-- 検索バー-->
-        <div class="px-6 py-4 text-end">
-            <input type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
+        <div class="d-flex px-6 py-4 gap-2 own-search">
+            {% if not request.user.is_anonymous %}
+                <button id="narrow" class="btn btn-outline-dark">絞り込み</button>
+            {% endif %}
+            <input class="align-items-center" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
         </div>
 
         <!-- 一覧-->
