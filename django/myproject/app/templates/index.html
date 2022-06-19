@@ -21,36 +21,13 @@
     {% block contents %}
         <!-- 検索バー-->
         <div class="px-6 py-4 text-end">
-            <form action="#" method="post">
-                <select name="search-select">
-                    <option value="all">全て</option>
-                    <option value="favorite">お気に入り</option>
-                    <option value="category">カテゴリ</option>
-                </select>
-                <input type="search" name="search" placeholder="キーワードを入力">
-                <input type="submit" name="submit" value="検索">
-            </form>
+            <input type="search" id="search" name="search" placeholder="検索ワードを入力">
         </div>
 
         <!-- 一覧-->
-        <section class="px-6 pb-5">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
-                {% for record in orderby_records %}
-                    <div class="align-items-center">
-                        {{record.emb_html | safe}}
-                        {% if not request.user.is_anonymous %}
-                            <div class="d-flex justify-content-center gap-2 flex-wrap pb-5">
-                                {% include 'visit.html' %}
-                                <div name="user_like_{{record.id}}">
-                                    {% include 'like.html' %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% include "pagination.html" %}
+        <div id="contents">
+            {% include "contents.html" %}
+        </div>
 
         <script type="text/javascript">
             // お気に入り
@@ -398,6 +375,30 @@
                         },
                         error: function (xhr, textStatus, errorThrown) {
                             alert("すでに存在しているカテゴリです。");
+                        }
+                    });
+                });
+
+                $(document).on('input', '#search', function(event){
+                    event.preventDefault();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'app:search_index' %}",
+                        data: {
+                            'search_word': $(this).val(),
+                        },
+
+                        success: function(response){
+
+                            selectorUserLike = document.getElementById("contents");
+
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
                         }
                     });
                 });

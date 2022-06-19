@@ -51,6 +51,50 @@ class IndexView(ListView):
         return queryset
 
 
+class IndexSearchView(ListView):
+    """
+    トップページのビュー(検索)
+    """
+
+    template_name = 'contents.html'
+
+    context_object_name = "orderby_records"
+
+    paginate_by = 15
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context["liked_list"] = list(TwitterLike.objects.filter(user=self.request.user.id).values_list("twitter_post", flat=True))
+
+        context["visited_list"] = list(TwitterVisit.objects.filter(user=self.request.user.id).values_list("twitter_post", flat=True))
+
+        context["category_objects"] = TwitterCategory.objects.filter(user=self.request.user.id)
+
+        context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
+
+        return context
+
+    def get_queryset(self):
+        search_word = self.request.GET.get('search_word')
+        queryset = TwitterPost.objects.order_by("-created_at")
+
+        if search_word != "":
+            queryset = queryset.filter(text__icontains=search_word).order_by("-created_at")
+
+        paginator = Paginator(queryset, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+
+        return queryset
+
+
 def LikeView(request):
     if request.method == "POST":
         twitter_post = get_object_or_404(TwitterPost, pk=request.POST.get('twitter_post_id'))

@@ -1,0 +1,19 @@
+<!--twitter投稿の一覧-->
+<section class="px-6 pb-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 justify-content-center"> 
+        {% for record in orderby_records %}
+            <div class="align-items-center">
+                {{record.emb_html | safe}}
+                {% if not request.user.is_anonymous %}
+                    <div class="d-flex justify-content-center gap-2 flex-wrap pb-5">
+                        {% include 'visit.html' %}
+                        <div name="user_like_{{record.id}}">
+                            {% include 'like.html' %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% include "pagination.html" %}
