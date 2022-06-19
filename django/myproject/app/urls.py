@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.index import IndexView, LikeView, visit_view, change_category_view, new_category_view, back_category_view, create_category_view, edit_category_view, delete_category_view
+from .views.index import IndexView, LikeView, visit_view, change_category_view, new_category_view, back_category_view, create_category_view, edit_category_view, delete_category_view, update_category_view
 from .views.twitter_view import update_twitter_post
 
 app_name = 'app'
@@ -35,4 +35,7 @@ urlpatterns = [
 
     # delete
     path('delete_category', delete_category_view, name='delete_category'),
+
+    # update
+    path('update_category', update_category_view, name='update_category'),
 ]

@@ -7,6 +7,5 @@ register = template.Library()
 # 指定したrecordのカテゴリを返すフィルタ
 @register.filter
 def return_category(liked_objects, record):
-    print(liked_objects.filter(twitter_post=record).first().category)
 
     return liked_objects.filter(twitter_post=record).first().category

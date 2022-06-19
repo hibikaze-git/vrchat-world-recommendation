@@ -338,6 +338,70 @@
                     });
                 });
 
+                $(document).on('click', '#update-category', function(event){
+                    event.preventDefault();
+                    let twitter_post_id = $(this).attr('name');
+                    twitter_post_id = twitter_post_id.split("_")[1];
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:update_category' %}",
+                        data: {
+                            'twitter_post_id': twitter_post_id,
+                            'update_category_name': $(document).find("#edit-category-input_"+twitter_post_id).val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+
+                        success: function(response){
+
+                            selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
+
+                            $(selectorUserLike).html(response)
+
+                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']")
+
+                            console.log(selectCategoryMenus)
+
+                            for (let select of selectCategoryMenus) {
+                                
+                                if (select.childElementCount != 0){
+                                    let selectId = $(select).attr("name").split("_")[2];
+
+                                    console.log(selectId)
+                                    
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: "{% url 'app:back_category' %}",
+                                        data: {
+                                            'twitter_post_id': selectId,
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+
+                                        success: function(response){
+
+                                            let selectorOther = document.getElementsByName("like_category_" + selectId);
+
+                                            console.log(selectorOther)
+
+                                            $(selectorOther).html(response)
+
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            alert("読み込み失敗");
+                                            var res = $.parseJSON(xhr.responseText);
+                                        }
+                                    });
+
+                                }
+                            
+                            }
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("すでに存在しているカテゴリです。");
+                        }
+                    });
+                });
+
             });
 
         </script>

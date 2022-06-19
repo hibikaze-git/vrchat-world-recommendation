@@ -269,3 +269,38 @@ def delete_category_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 
         return render(request, template_name="category.html", context=context)
+
+
+def update_category_view(request):
+    if request.method == "POST":
+
+        get_id = int(request.POST.get('twitter_post_id'))
+        update_category_name = request.POST.get('update_category_name')
+
+        twitter_post = get_object_or_404(TwitterPost, pk=get_id)
+        user = request.user
+
+        exist_check = TwitterCategory.objects.filter(user=user, category=update_category_name).first()
+
+        if exist_check is not None or update_category_name == "":
+            raise
+        else:
+            update_category = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first().category
+            update_category.category = update_category_name
+
+            update_category.save()
+
+        context = {
+            'twitter_post_id': twitter_post.id,
+            'record': twitter_post
+        }
+
+        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
+
+        context["category_objects"] = TwitterCategory.objects.filter(user=user)
+
+        context["liked_objects"] = TwitterLike.objects.filter(user=user)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+
+        return render(request, template_name="category.html", context=context)
