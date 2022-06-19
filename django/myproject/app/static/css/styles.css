@@ -11310,3 +11310,9 @@ textarea.form-control-lg {
 .own-visit-padding {
   padding: 0.2rem 0.5rem;
 }
+
+.own-bg-image {
+  background-image: url("/static/img/1574566.jpg");
+  background-position: 37% 67%;
+  background-size: 120%;
+}
