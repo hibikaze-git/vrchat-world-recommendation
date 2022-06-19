@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.index import IndexView, LikeView, visit_view, change_category_view, new_category_view, back_category_view, create_category_view
+from .views.index import IndexView, LikeView, visit_view, change_category_view, new_category_view, back_category_view, create_category_view, edit_category_view
 from .views.twitter_view import update_twitter_post
 
 app_name = 'app'
@@ -29,4 +29,7 @@ urlpatterns = [
 
     # create
     path('create_category', create_category_view, name='create_category'),
+
+    # edit
+    path('edit_category', edit_category_view, name='edit_category'),
 ]
