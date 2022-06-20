@@ -24,9 +24,14 @@
         <!-- 検索バー-->
         <div class="d-flex px-6 py-4 gap-2 own-search">
             {% if not request.user.is_anonymous %}
-                <button id="narrow" class="btn btn-outline-dark">絞り込み</button>
+                <button id="modal-open" class="btn btn-outline-dark">絞り込み</button>
             {% endif %}
             <input class="align-items-center" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
+        </div>
+
+        <!-- モーダル-->
+        <div id="modal" class="modal-container">
+            {% include "narrow.html" %}
         </div>
 
         <!-- 一覧-->
@@ -406,6 +411,38 @@
                             var res = $.parseJSON(xhr.responseText);
                         }
                     });
+                });
+
+                $(document).on('click', '#modal-open', function(event){
+                    event.preventDefault();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'app:narrow' %}",
+
+                        success: function(response){
+
+                            container = document.getElementById("modal");
+                            $(container).addClass("active")
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
+                        }
+                    });
+                });
+
+                $(document).on('click', '#modal-close', function(event){
+                    container = document.getElementById("modal");
+                    $(container).removeClass('active');
+                });
+
+                $(document).on('click',function(event) {
+                    if(!$(event.target).closest('.modal-body').length) {
+                        container = document.getElementById("modal");
+                        $(container).removeClass('active');
+                    }
                 });
 
             });

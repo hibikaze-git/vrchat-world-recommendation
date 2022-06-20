@@ -361,3 +361,17 @@ def update_category_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 
         return render(request, template_name="category.html", context=context)
+
+
+def narrow_view(request):
+    if request.method == "GET":
+
+        user = request.user
+
+        context = {
+            "category_objects": TwitterCategory.objects.filter(user=user)
+        }
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+
+        return render(request, template_name="category.html", context=context)
