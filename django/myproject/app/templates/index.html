@@ -391,12 +391,25 @@
 
                 $(document).on('input', '#search', function(event){
                     event.preventDefault();
+                    parents = $(document).find("#narrow-form")
+
+                    checkedRange = parents.find("input[name=narrow-radio]:checked")
+                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+
+                    checkedCategoryIdList = [];
+
+                    checkedCategory.each(function(){
+                        checkedCategoryIdList.push($(this).val())
+                    })
 
                     $.ajax({
-                        type: 'GET',
+                        type: 'POST',
                         url: "{% url 'app:search_index' %}",
                         data: {
                             'search_word': $(this).val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'range': checkedRange.val(),
+                            'categories': checkedCategoryIdList.join(","),
                         },
 
                         success: function(response){

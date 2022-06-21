@@ -86,19 +86,19 @@ class IndexSearchView(ListView):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
 
-        if self.request.GET.get('search_word') is not None:
-            context["search_word"] = self.request.GET.get('search_word')
+        if self.request.POST.get('search_word') is not None:
+            context["search_word"] = self.request.POST.get('search_word')
 
         if self.request.POST.get('range') is not None:
-            context["range"] = self.request.GET.get('range')
+            context["range"] = self.request.POST.get('range')
 
         if self.request.POST.get('categories') is not None:
-            context["categories"] = self.request.GET.get('categories')
+            context["categories"] = self.request.POST.get('categories')
 
         return context
 
     def get_queryset(self):
-        search_word = self.request.GET.get('search_word')
+        search_word = self.request.POST.get('search_word')
         range = self.request.POST.get('range')
         categories = self.request.POST.get('categories')
 
@@ -124,7 +124,7 @@ class IndexSearchView(ListView):
             queryset = queryset.filter(text__icontains=search_word).order_by("-created_at")
 
         paginator = Paginator(queryset, self.paginate_by)
-        page = self.request.GET.get('page')
+        page = self.request.POST.get('page')
 
         try:
             page_obj = paginator.page(page)
