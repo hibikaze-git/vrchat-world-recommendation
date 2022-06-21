@@ -492,6 +492,7 @@
                         type: 'POST',
                         url: "{% url 'app:search_index' %}",
                         data: {
+                            'search_word': $(document).find("#search").val(),
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
                             'range': checkedRange.val(),
                             'categories': checkedCategoryIdList.join(","),
