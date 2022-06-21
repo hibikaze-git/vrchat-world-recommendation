@@ -100,7 +100,7 @@ class IndexSearchView(ListView):
     def get_queryset(self):
         search_word = self.request.GET.get('search_word')
         range = self.request.POST.get('range')
-        categories = self.request.POST.get('categories').split(",")
+        categories = self.request.POST.get('categories')
 
         queryset = TwitterPost.objects.order_by("-created_at")
 
@@ -114,7 +114,8 @@ class IndexSearchView(ListView):
                 visited_id_list = TwitterVisit.objects.filter(user=self.request.user).values_list("twitter_post", flat=True)
                 queryset = queryset.filter(pk__in=visited_id_list).order_by("-created_at")
 
-        if self.request.POST.get('categories') != "":
+        if categories != "" and categories is not None:
+            categories = categories.split(",")
             category_list = TwitterCategory.objects.filter(pk__in=categories)
             liked_id_list = TwitterLike.objects.filter(user=self.request.user, category__in=category_list).values_list("twitter_post", flat=True)
             queryset = queryset.filter(pk__in=liked_id_list).order_by("-created_at")
