@@ -476,12 +476,11 @@
                     }
                 });
 
-                $(document).on('click', '#narrow-btn', function(event){
+                $(document).on('change', '#narrow-form', function(event){
                     event.preventDefault();
-                    parents = $(this).parents("#narrow-form")
 
-                    checkedRange = parents.find("input[name=narrow-radio]:checked")
-                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+                    checkedRange = $(this).find("input[name=narrow-radio]:checked")
+                    checkedCategory = $(this).find("input[name=narrow-category]:checked")
 
                     checkedCategoryIdList = [];
 
