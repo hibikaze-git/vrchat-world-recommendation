@@ -415,6 +415,16 @@
 
                 $(document).on('click', '#modal-open', function(event){
                     event.preventDefault();
+                    parents = $(document).find("#narrow-form")
+
+                    checkedRange = parents.find("input[name=narrow-radio]:checked").val()
+                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+
+                    checkedCategoryIdList = [];
+
+                    checkedCategory.each(function(){
+                        checkedCategoryIdList.push($(this).val())
+                    })
 
                     $.ajax({
                         type: 'GET',
@@ -424,6 +434,13 @@
 
                             container = document.getElementById("modal");
                             $(container).html(response)
+
+                            $(container).find("#narrow-form").find(`input[value=${checkedRange}]`).prop('checked', true);
+
+                            for (categoryId of checkedCategoryIdList) {
+                                $(container).find("#narrow-category").find(`input[value=${categoryId}]`).prop('checked', true);
+                            }
+                            
                             $(container).addClass("active")
 
                         },
@@ -450,7 +467,7 @@
                     event.preventDefault();
                     parents = $(this).parents("#narrow-form")
 
-                    checkedRange = parents.find("input[name=narrow-radio]:checked").val()
+                    checkedRange = parents.find("input[name=narrow-radio]:checked")
                     checkedCategory = parents.find("input[name=narrow-category]:checked")
 
                     checkedCategoryIdList = [];
@@ -464,7 +481,7 @@
                         url: "{% url 'app:search_index' %}",
                         data: {
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'range': checkedRange,
+                            'range': checkedRange.val(),
                             'categories': checkedCategoryIdList.join(","),
                         },
 
