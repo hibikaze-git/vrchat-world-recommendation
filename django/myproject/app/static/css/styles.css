@@ -4086,7 +4086,7 @@ textarea.form-control-lg {
   padding: 0.25rem 0.75rem;
   font-size: 1.25rem;
   line-height: 1;
-  background-color: transparent;
+  background-color: white;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   transition: box-shadow 0.15s ease-in-out;
@@ -11371,8 +11371,8 @@ textarea.form-control-lg {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-	max-width: 500px;
-	width: 90%;
+	max-width: 600px;
+	width: 100%;
 }
 /*モーダルを閉じるボタンの指定*/
 .modal-close{
@@ -11393,4 +11393,56 @@ textarea.form-control-lg {
 	background: #fff;
 	text-align: left;
 	padding: 30px;
+}
+
+.own-lead-form{
+  text-align: center;
+  font-weight:bold;
+  font-size:20px;
+}
+.own-form{
+  width:460px;
+  margin:0 auto;
+}
+.own-item{
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.own-label{
+  float: left;
+  margin-right: 20px;
+  width:135px;
+  border-left: solid 3px dodgerblue;
+  padding-left: 10px;
+}
+.own-inputs{
+  float: left;
+  width:300px;
+}
+.own-btn-area{
+  text-align: center;
+}
+.own-input[type="submit"]{
+  background:dodgerblue;
+  border: none;
+  color: white;
+  font-size:17px;
+  font-weight:bold;
+  padding: 10px 20px;
+  margin: 0 5px;
+}
+.own-input[type="reset"]{
+  background: #aaa;
+  border: none;
+  color: white;
+  font-size:17px;
+  font-weight:bold;
+  padding: 10px 20px;
+  margin: 0 5px;
+}
+
+#sample label{
+  display: block;
+  float: left;
+  width: 110px;
 }

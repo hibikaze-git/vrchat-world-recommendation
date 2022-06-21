@@ -1,22 +1,31 @@
 <div class="modal-body">
     <div id="modal-close" class="modal-close">×</div>
     <div class="modal-content">
-        <p class="lead-form">絞り込み</p>
+        <p class="own-lead-form pb-3">絞り込み</p>
 
-        <form>
-
-        <div class="item">
-            <p class="label">予約メニュー</p>
-            <div class="inputs">
-            <input id="cut" type="radio" name="menu" value="cut"><label for="cut">カット</label>
-            <input id="cut-color" type="radio" name="menu" value="cut-color"><label for="cut-color">カット+カラー</label>
-            <input id="headspa" type="radio" name="menu" value="headspa"><label for="headspa">ヘッドスパ</label>
+        <form class="own-form">
+            <div class="own-item">
+                <label class="own-label">範囲</label>
+                <input id="narrow_all" type="radio" name="narrow_all" value="all"><label class="pe-2" for="narrow_all">全て</label>
+                <input id="narrow_like" type="radio" name="narrow_like" value="like"><label class="pe-2" for="narrow_like">お気に入り</label>
+                <input id="narrow_visit" type="radio" name="narrow_visit" value="visit"><label class="pe-2" for="narrow_visit">訪問済み</label>
             </div>
-        </div>
 
-        <div class="btn-area">
-            <input type="submit" value="予約する"><input type="reset" value="リセット">
-        </div>
+            <div class="own-item">
+                <p class="own-label">カテゴリ</p>
+                <div id="sample" class="own-inputs">
+                    {% for category in category_objects %}
+                        <label>
+                            <input id="narrow_{{category.id}}" type="checkbox" class="own-input-test" name="narrow_{{category.id}}" value="{{category.id}}">
+                            {{category.category}}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="own-btn-area pt-4">
+                <input class="own-input" type="submit" value="絞り込む">
+            </div>
 
         </form>
     </div>

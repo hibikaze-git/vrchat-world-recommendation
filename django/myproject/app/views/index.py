@@ -374,4 +374,4 @@ def narrow_view(request):
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 
-        return render(request, template_name="category.html", context=context)
+        return render(request, template_name="narrow.html", context=context)
