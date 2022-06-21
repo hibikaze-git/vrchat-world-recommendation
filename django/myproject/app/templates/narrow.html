@@ -4,16 +4,25 @@
         <p class="own-lead-form pb-3">絞り込み</p>
 
         <form class="own-form">
-            <div class="own-item">
-                <label class="own-label">範囲</label>
-                <input id="narrow_all" type="radio" name="narrow_all" value="all"><label class="pe-2" for="narrow_all">全て</label>
-                <input id="narrow_like" type="radio" name="narrow_like" value="like"><label class="pe-2" for="narrow_like">お気に入り</label>
-                <input id="narrow_visit" type="radio" name="narrow_visit" value="visit"><label class="pe-2" for="narrow_visit">訪問済み</label>
+            <div id="narrow-range" class="own-item">
+                <p class="own-label">範囲</p>
+                <label>
+                    <input id="narrow_all" type="radio" name="narrow_all" value="all">
+                    全て
+                </label>
+                <label>
+                    <input id="narrow_like" type="radio" name="narrow_like" value="like">
+                    お気に入り
+                </label>
+                <label>
+                    <input id="narrow_visit" type="radio" name="narrow_visit" value="visit">
+                    訪問済み
+                </label>
             </div>
 
             <div class="own-item">
                 <p class="own-label">カテゴリ</p>
-                <div id="sample" class="own-inputs">
+                <div id="narrow-category" class="own-inputs">
                     {% for category in category_objects %}
                         <label>
                             <input id="narrow_{{category.id}}" type="checkbox" class="own-input-test" name="narrow_{{category.id}}" value="{{category.id}}">

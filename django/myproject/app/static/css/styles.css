@@ -11401,7 +11401,7 @@ textarea.form-control-lg {
   font-size:20px;
 }
 .own-form{
-  width:460px;
+  width:100%;
   margin:0 auto;
 }
 .own-item{
@@ -11441,7 +11441,13 @@ textarea.form-control-lg {
   margin: 0 5px;
 }
 
-#sample label{
+#narrow-range label{
+  display: block;
+  float: left;
+  width: 110px;
+}
+
+#narrow-category label{
   display: block;
   float: left;
   width: 110px;
