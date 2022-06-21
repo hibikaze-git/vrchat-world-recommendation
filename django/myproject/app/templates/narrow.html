@@ -3,19 +3,19 @@
     <div class="modal-content">
         <p class="own-lead-form pb-3">絞り込み</p>
 
-        <form class="own-form">
+        <form id="narrow-form" class="own-form">
             <div id="narrow-range" class="own-item">
                 <p class="own-label">範囲</p>
                 <label>
-                    <input id="narrow_all" type="radio" name="narrow_all" value="all">
+                    <input type="radio" name="narrow-radio" value="all">
                     全て
                 </label>
                 <label>
-                    <input id="narrow_like" type="radio" name="narrow_like" value="like">
+                    <input type="radio" name="narrow-radio" value="like">
                     お気に入り
                 </label>
                 <label>
-                    <input id="narrow_visit" type="radio" name="narrow_visit" value="visit">
+                    <input type="radio" name="narrow-radio" value="visit">
                     訪問済み
                 </label>
             </div>
@@ -25,7 +25,7 @@
                 <div id="narrow-category" class="own-inputs">
                     {% for category in category_objects %}
                         <label>
-                            <input id="narrow_{{category.id}}" type="checkbox" class="own-input-test" name="narrow_{{category.id}}" value="{{category.id}}">
+                            <input type="checkbox" class="own-input-test" name="narrow-category" value="{{category.id}}">
                             {{category.category}}
                         </label>
                     {% endfor %}
@@ -33,7 +33,7 @@
             </div>
 
             <div class="own-btn-area pt-4">
-                <input class="own-input" type="submit" value="絞り込む">
+                <button id="narrow-btn" class="own-narrow-btn">絞り込む</button>
             </div>
 
         </form>

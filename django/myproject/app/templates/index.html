@@ -446,6 +446,42 @@
                     }
                 });
 
+                $(document).on('click', '#narrow-btn', function(event){
+                    event.preventDefault();
+                    parents = $(this).parents("#narrow-form")
+
+                    checkedRange = parents.find("input[name=narrow-radio]:checked").val()
+                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+
+                    checkedCategoryIdList = [];
+
+                    checkedCategory.each(function(){
+                        checkedCategoryIdList.push($(this).val())
+                    })
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:search_index' %}",
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'range': checkedRange,
+                            'categories': checkedCategoryIdList.join(","),
+                        },
+
+                        success: function(response){
+
+                            selectorUserLike = document.getElementById("contents");
+
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
+                        }
+                    });
+                });
+
             });
 
         </script>

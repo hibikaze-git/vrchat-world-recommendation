@@ -11338,6 +11338,7 @@ textarea.form-control-lg {
 	cursor: pointer;
 	transform: translate(-50%,-50%);
 }
+
 /*モーダル本体の指定 + モーダル外側の背景の指定*/
 .modal-container{
 	position: fixed;
@@ -11354,6 +11355,7 @@ textarea.form-control-lg {
 	transition: .3s;
     box-sizing: border-box;
 }
+
 /*モーダル本体の擬似要素の指定*/
 .modal-container:before{
 	content: "";
@@ -11361,11 +11363,13 @@ textarea.form-control-lg {
 	vertical-align: middle;
 	height: 100%;
 }
+
 /*モーダル本体に「active」クラス付与した時のスタイル*/
 .modal-container.active{
 	opacity: 1;
 	visibility: visible;
 }
+
 /*モーダル枠の指定*/
 .modal-body{
 	position: relative;
@@ -11374,6 +11378,7 @@ textarea.form-control-lg {
 	max-width: 600px;
 	width: 100%;
 }
+
 /*モーダルを閉じるボタンの指定*/
 .modal-close{
 	position: absolute;
@@ -11388,6 +11393,7 @@ textarea.form-control-lg {
 	color: #fff;
 	cursor: pointer;
 }
+
 /*モーダル内のコンテンツの指定*/
 .modal-content{
 	background: #fff;
@@ -11400,14 +11406,17 @@ textarea.form-control-lg {
   font-weight:bold;
   font-size:20px;
 }
+
 .own-form{
   width:100%;
   margin:0 auto;
 }
+
 .own-item{
   overflow: hidden;
   margin-bottom: 20px;
 }
+
 .own-label{
   float: left;
   margin-right: 20px;
@@ -11415,24 +11424,18 @@ textarea.form-control-lg {
   border-left: solid 3px dodgerblue;
   padding-left: 10px;
 }
+
 .own-inputs{
   float: left;
   width:300px;
 }
+
 .own-btn-area{
   text-align: center;
 }
-.own-input[type="submit"]{
+
+.own-narrow-btn{
   background:dodgerblue;
-  border: none;
-  color: white;
-  font-size:17px;
-  font-weight:bold;
-  padding: 10px 20px;
-  margin: 0 5px;
-}
-.own-input[type="reset"]{
-  background: #aaa;
   border: none;
   color: white;
   font-size:17px;

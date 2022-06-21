@@ -72,6 +72,9 @@ class IndexSearchView(ListView):
 
     paginate_by = 15
 
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
@@ -86,13 +89,37 @@ class IndexSearchView(ListView):
         if self.request.GET.get('search_word') is not None:
             context["search_word"] = self.request.GET.get('search_word')
 
+        if self.request.POST.get('range') is not None:
+            context["range"] = self.request.GET.get('range')
+
+        if self.request.POST.get('categories') is not None:
+            context["categories"] = self.request.GET.get('categories')
+
         return context
 
     def get_queryset(self):
         search_word = self.request.GET.get('search_word')
+        range = self.request.POST.get('range')
+        categories = self.request.POST.get('categories').split(",")
+
         queryset = TwitterPost.objects.order_by("-created_at")
 
-        if search_word != "":
+        if self.request.POST.get('range') is not None or range != "all":
+
+            if range == "like":
+                liked_id_list = TwitterLike.objects.filter(user=self.request.user).values_list("twitter_post", flat=True)
+                queryset = queryset.filter(pk__in=liked_id_list).order_by("-created_at")
+
+            if range == "visit":
+                visited_id_list = TwitterVisit.objects.filter(user=self.request.user).values_list("twitter_post", flat=True)
+                queryset = queryset.filter(pk__in=visited_id_list).order_by("-created_at")
+
+        if self.request.POST.get('categories') != "":
+            category_list = TwitterCategory.objects.filter(pk__in=categories)
+            liked_id_list = TwitterLike.objects.filter(user=self.request.user, category__in=category_list).values_list("twitter_post", flat=True)
+            queryset = queryset.filter(pk__in=liked_id_list).order_by("-created_at")
+
+        if search_word != "" and search_word is not None:
             queryset = queryset.filter(text__icontains=search_word).order_by("-created_at")
 
         paginator = Paginator(queryset, self.paginate_by)
