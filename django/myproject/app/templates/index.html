@@ -23,6 +23,11 @@
     {% block contents %}
         <!-- 検索バー-->
         <div class="d-flex px-6 py-4 gap-2 own-search">
+            <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="表示件数選択">
+                <option value="25" selected>25件</option>
+                <option value="50">50件</option>
+                <option value="100">100件</option>
+            </select>
             {% if not request.user.is_anonymous %}
                 <button id="modal-open" class="btn btn-outline-dark">絞り込み</button>
             {% endif %}
@@ -410,6 +415,7 @@
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
                             'range': checkedRange.val(),
                             'categories': checkedCategoryIdList.join(","),
+                            'paginate_by': $(document).find("#list-select-count").val()
                         },
 
                         success: function(response){
@@ -496,6 +502,45 @@
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
                             'range': checkedRange.val(),
                             'categories': checkedCategoryIdList.join(","),
+                            'paginate_by': $(document).find("#list-select-count").val()
+                        },
+
+                        success: function(response){
+
+                            selectorUserLike = document.getElementById("contents");
+
+                            $(selectorUserLike).html(response)
+
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert("読み込み失敗");
+                            var res = $.parseJSON(xhr.responseText);
+                        }
+                    });
+                });
+
+                $(document).on('change', '#list-select-count', function(event){
+                    event.preventDefault();
+                    narrow = $(document).find("#narrow-form")
+
+                    checkedRange = narrow.find("input[name=narrow-radio]:checked")
+                    checkedCategory = narrow.find("input[name=narrow-category]:checked")
+
+                    checkedCategoryIdList = [];
+
+                    checkedCategory.each(function(){
+                        checkedCategoryIdList.push($(this).val())
+                    })
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'app:search_index' %}",
+                        data: {
+                            'search_word': $(document).find("#search").val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'range': checkedRange.val(),
+                            'categories': checkedCategoryIdList.join(","),
+                            'paginate_by': $(this).val()
                         },
 
                         success: function(response){

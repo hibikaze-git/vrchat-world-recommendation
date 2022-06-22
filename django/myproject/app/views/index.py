@@ -20,7 +20,7 @@ class IndexView(ListView):
 
     context_object_name = "orderby_records"
 
-    paginate_by = 15
+    paginate_by = 25
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -48,16 +48,6 @@ class IndexView(ListView):
             if search_word != "":
                 queryset = queryset.filter(text__icontains=search_word).order_by("-created_at")
 
-        paginator = Paginator(queryset, self.paginate_by)
-        page = self.request.GET.get('page')
-
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
-
         return queryset
 
 
@@ -70,7 +60,7 @@ class IndexSearchView(ListView):
 
     context_object_name = "orderby_records"
 
-    paginate_by = 15
+    paginate_by = 25
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
@@ -134,6 +124,10 @@ class IndexSearchView(ListView):
             page_obj = paginator.page(paginator.num_pages)
 
         return queryset
+
+    def get_paginate_by(self, queryset):
+
+        return self.request.POST.get('paginate_by', IndexSearchView.paginate_by)
 
 
 def LikeView(request):
