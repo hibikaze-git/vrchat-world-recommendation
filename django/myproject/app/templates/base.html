@@ -30,7 +30,6 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:update' pk=user.pk %}">マイページ</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:logout' %}">ログアウト</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'password_reset' %}">パスワードリセット</a></li>
                         
                         {% else %}
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:signup' %}">サインアップ</a></li>
