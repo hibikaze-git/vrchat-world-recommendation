@@ -1,8 +1,12 @@
 FROM python:3.8.12
 
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV TZ=Asia/Tokyo
+
 WORKDIR /django/myproject
 
-RUN apt-get update && apt-get upgrade -y \
+RUN apt update && apt upgrade -y \
  && pip install -U pip
 
 # for django
