@@ -51,8 +51,5 @@ class TestUrls(TestCase):
 
         custom_user.save()
 
-        self.test_client = Client()
-        self.test_client.login(username='user', password="usertestcreatepass")
-
         view = resolve(f'/update/{custom_user.pk}')
         self.assertEqual(view.func.view_class, UserUpdateView)
