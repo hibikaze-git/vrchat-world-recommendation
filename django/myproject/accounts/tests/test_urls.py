@@ -1,20 +1,44 @@
 from django.test import TestCase
+from django.urls import resolve
+from django.contrib.auth import views as auth_views
+from ..views import SignUpView, SignUpSuccessView, UserUpdateView
 from ..models import CustomUser
-
+from django.test import Client
 
 # Create your tests here.
-class CustomUserModelTests(TestCase):
+class TestUrls(TestCase):
 
-    def test_is_empty(self):
+    def test_sign_up(self):
         """
-        初期状態では何も登録されていないことをチェック
+        signupのurlをテスト
         """
-        all_user = CustomUser.objects.all()
-        self.assertEqual(all_user.count(), 0)
+        view = resolve('/signup/')
+        self.assertEqual(view.func.view_class, SignUpView)
 
-    def test_saving_and_retrieving(self):
+    def test_sigun_up_success(self):
         """
-        保存後取り出してデータが一致するかを確認
+         signup_successのurlをテスト
+        """
+        view = resolve('/signup_success/')
+        self.assertEqual(view.func.view_class, SignUpSuccessView)
+
+    def test_login(self):
+        """
+         loginのurlをテスト
+        """
+        view = resolve('/login/')
+        self.assertEqual(view.func.view_class, auth_views.LoginView)
+
+    def test_logout(self):
+        """
+         logoutのurlをテスト
+        """
+        view = resolve('/logout/')
+        self.assertEqual(view.func.view_class, auth_views.LogoutView)
+
+    def test_update_user(self):
+        """
+         updateのurlをテスト
         """
         user_name = "user"
         email = "user@mail.com"
@@ -27,8 +51,8 @@ class CustomUserModelTests(TestCase):
 
         custom_user.save()
 
-        saved_user = CustomUser.objects.all()
-        actual_user = saved_user[0]
+        self.test_client = Client()
+        self.test_client.login(username='user', password="usertestcreatepass")
 
-        self.assertEqual(actual_user.username, user_name)
-        self.assertEqual(actual_user.email, email)
+        view = resolve(f'/update/{custom_user.pk}')
+        self.assertEqual(view.func.view_class, UserUpdateView)
