@@ -5,12 +5,12 @@ from django.db import models
 class TwitterPost(models.Model):
 
     tweet_id = models.CharField(
-        max_length=256,
+        max_length=255,
         unique=True
     )
 
     author_id = models.CharField(
-        max_length=256,
+        max_length=255,
     )
 
     username = models.CharField(
