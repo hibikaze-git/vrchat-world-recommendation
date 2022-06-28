@@ -3,7 +3,7 @@ from django.urls import resolve
 from django.contrib.auth import views as auth_views
 from ..views import SignUpView, SignUpSuccessView, UserUpdateView
 from ..models import CustomUser
-from django.test import Client
+
 
 # Create your tests here.
 class TestUrls(TestCase):
