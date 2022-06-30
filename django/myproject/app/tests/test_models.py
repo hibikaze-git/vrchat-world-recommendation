@@ -1,7 +1,9 @@
 from django.test import TestCase
-from ..models import TwitterPost, TwitterLike, TwitterCategory, TwitterVisit
-from accounts.models import CustomUser
 
+from accounts.models import CustomUser
+from ..models import TwitterPost, TwitterLike, TwitterCategory, TwitterVisit
+
+# twitter投稿データのサンプル
 tweet_id = "1234"
 author_id = "1234"
 username = "abdc"
@@ -13,6 +15,9 @@ emb_url = "https://publish.twitter.com/oembed?"
 
 # Create your tests here.
 class TwitterPostTests(TestCase):
+    """
+    ツイッター投稿データを保存するモデルのテスト
+    """
 
     def test_saving_and_retrieving(self):
         """
@@ -38,8 +43,11 @@ class TwitterPostTests(TestCase):
 
 
 class TwitterFeatureTests(TestCase):
-
+    """
+    ツイッター投稿データに情報を付与するモデルのテスト
+    """
     def setUp(self):
+        # 投稿データを登録
         self.twitter_post = TwitterPost(
             tweet_id=tweet_id,
             author_id=author_id,
@@ -52,6 +60,7 @@ class TwitterFeatureTests(TestCase):
 
         self.twitter_post.save()
 
+        # テストユーザの作成
         user_name = "user"
         email = "user@mail.com"
         password = "usertestcreatepass"
@@ -65,6 +74,9 @@ class TwitterFeatureTests(TestCase):
         self.custom_user.save()
 
     def test_like(self):
+        """
+        お気に入り機能
+        """
         twitter_like = TwitterLike(
             user=self.custom_user,
             twitter_post=self.twitter_post,
@@ -79,6 +91,9 @@ class TwitterFeatureTests(TestCase):
         self.assertEqual(actual.user, self.custom_user)
 
     def test_visit(self):
+        """
+        訪問済み機能
+        """
         twitter_visit = TwitterVisit(
             user=self.custom_user,
             twitter_post=self.twitter_post
@@ -92,6 +107,9 @@ class TwitterFeatureTests(TestCase):
         self.assertEqual(actual.user, self.custom_user)
 
     def test_category(self):
+        """
+        カテゴリ登録機能
+        """
         category = "abcd"
 
         twitter_category = TwitterCategory(
