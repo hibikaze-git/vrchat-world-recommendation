@@ -14,6 +14,7 @@ class AjaxTests(TestCase):
     Chrome上でajaxのテストを行う
     """
     def setUp(self):
+        # seleniumの設定
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
@@ -25,6 +26,9 @@ class AjaxTests(TestCase):
         self.password = os.environ.get('TEST_USER_PASS')
 
     def login_check(self):
+        """
+        テストユーザーでログイン
+        """
         if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
             self.driver.find_element(By.LINK_TEXT, "ログイン").click()
             time.sleep(1)
@@ -42,6 +46,9 @@ class AjaxTests(TestCase):
                 raise
 
     def create_visit(self):
+        """
+        投稿を訪問済みにする
+        """
         visit_btn = self.driver.find_element(By.ID, "visit")
         visit_btn_name = visit_btn.get_attribute("title")
         self.assertEqual(visit_btn_name, "未訪問")
@@ -50,6 +57,9 @@ class AjaxTests(TestCase):
         time.sleep(1)
 
     def delete_visit(self):
+        """
+        投稿の訪問済みを解除
+        """
         visit_btn = self.driver.find_element(By.ID, "visit")
         visit_btn_name = visit_btn.get_attribute("title")
         self.assertEqual(visit_btn_name, "訪問済み")
@@ -57,16 +67,25 @@ class AjaxTests(TestCase):
         visit_btn.click()
 
     def create_like(self):
+        """
+        投稿をお気に入りにする
+        """
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
         time.sleep(1)
 
     def delete_like(self):
+        """
+        投稿のお気に入りを解除
+        """
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
         time.sleep(1)
 
     def create_category(self):
+        """
+        投稿のカテゴリを登録
+        """
         category_new_btn = self.driver.find_element(By.ID, "category-new")
         category_new_btn_title = category_new_btn.get_attribute("title")
         self.assertEqual(category_new_btn_title, "カテゴリ追加")
@@ -82,6 +101,9 @@ class AjaxTests(TestCase):
         time.sleep(1)
 
     def delete_category(self):
+        """
+        投稿のカテゴリを解除・カテゴリそのものを削除
+        """
         self.driver.find_element(By.ID, "category-edit").click()
 
         time.sleep(1)
@@ -89,15 +111,20 @@ class AjaxTests(TestCase):
         self.driver.find_element(By.ID, "delete-category").click()
 
     def test_visit(self):
+        """
+        訪問済み機能のテスト
+        """
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
 
         self.login_check()
 
+        # 未訪問ボタンを取得
         visit_btn = self.driver.find_element(By.ID, "visit")
         visit_btn_name = visit_btn.get_attribute("title")
         self.assertEqual(visit_btn_name, "未訪問")
 
+        # 訪問済みにする
         visit_btn.click()
         time.sleep(1)
 
@@ -106,6 +133,7 @@ class AjaxTests(TestCase):
         visit_btn_name = visit_btn.get_attribute("title")
         self.assertEqual(visit_btn_name, "訪問済み")
 
+        # 訪問済みを解除
         visit_btn.click()
         time.sleep(1)
 
@@ -115,6 +143,9 @@ class AjaxTests(TestCase):
         self.assertEqual(visit_btn_name, "未訪問")
 
     def test_like(self):
+        """
+        お気に入り機能のテスト
+        """
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
 
@@ -221,6 +252,9 @@ class AjaxTests(TestCase):
         self.assertEqual(like_btn_title, "お気に入りに登録")
 
     def test_select_count(self):
+        """
+        表示件数変更機能のテスト
+        """
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
 
@@ -236,6 +270,9 @@ class AjaxTests(TestCase):
         self.assertEqual(len(twitter_posts), 50)
 
     def test_narrow(self):
+        """
+        投稿絞り込み表示機能のテスト
+        """
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
 
@@ -255,24 +292,28 @@ class AjaxTests(TestCase):
 
         self.assertTrue("active" in modal_class)
 
+        # お気に入りのみ表示
         self.driver.find_element(By.ID, "narrow-like").click()
         time.sleep(1)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 1)
 
+        # 訪問済みのみ表示
         self.driver.find_element(By.ID, "narrow-visit").click()
         time.sleep(1)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 1)
 
+        # 全て表示
         self.driver.find_element(By.ID, "narrow-all").click()
         time.sleep(1)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 25)
 
+        # カテゴリを指定して絞り込み
         self.driver.find_element(By.NAME, "narrow-category").click()
         time.sleep(1)
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
