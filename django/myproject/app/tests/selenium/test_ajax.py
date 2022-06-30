@@ -172,3 +172,18 @@ class AjaxTests(TestCase):
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn_title = like_btn.get_attribute("title")
         self.assertEqual(like_btn_title, "お気に入りに登録")
+
+    def test_select_count(self):
+        self.driver.get("http://localhost:8000/")
+        time.sleep(1)
+
+        self.login_check()
+        dropdown = self.driver.find_element(By.ID, "list-select-count")
+        select = Select(dropdown)
+        select.select_by_visible_text("50件")
+
+        time.sleep(3)
+
+        twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
+
+        self.assertEqual(len(twitter_posts), 50)
