@@ -1,12 +1,12 @@
-from django.test import TestCase
+from django.test import Client, TestCase
+
 from ..models import CustomUser
-from django.test import Client
 
 
 # Create your tests here.
 class SignUpTests(TestCase):
     """
-    SignUpViewのテストクラス
+    新規ユーザー作成関連Viewのテストクラス
     """
     def setUp(self):
         self.client = Client()
@@ -27,17 +27,18 @@ class SignUpTests(TestCase):
 
 class LoginTests(TestCase):
     """
-    LoginView,LogoutViewのテストクラス
+    ログイン関連Viewのテストクラス
     """
     def setUp(self):
         user_name = "user"
         email = "user@mail.com"
         password = "usertestcreatepass"
 
-        custom_user = CustomUser()
-        custom_user.username = user_name
-        custom_user.email = email
-        custom_user.password = password
+        custom_user = CustomUser(
+            username=user_name,
+            email=email,
+            password=password
+        )
 
         custom_user.save()
 
@@ -62,17 +63,18 @@ class LoginTests(TestCase):
 
 class UserUpdateTests(TestCase):
     """
-    UserUpdateViewのテストクラス
+    マイページのテストクラス
     """
     def setUp(self):
         user_name = "user"
         email = "user@mail.com"
         password = "usertestcreatepass"
 
-        self.custom_user = CustomUser()
-        self.custom_user.username = user_name
-        self.custom_user.email = email
-        self.custom_user.password = password
+        self.custom_user = CustomUser(
+            username=user_name,
+            email=email,
+            password=password
+        )
 
         self.custom_user.save()
 

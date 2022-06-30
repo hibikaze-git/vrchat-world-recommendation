@@ -1,9 +1,10 @@
 from django.test import TestCase
+
 from ..models import CustomUser
 
 
 # Create your tests here.
-class CustomUserModelTests(TestCase):
+class UserModelTests(TestCase):
 
     def test_is_empty(self):
         """
@@ -20,10 +21,11 @@ class CustomUserModelTests(TestCase):
         email = "user@mail.com"
         password = "usertestcreatepass"
 
-        custom_user = CustomUser()
-        custom_user.username = user_name
-        custom_user.email = email
-        custom_user.password = password
+        custom_user = CustomUser(
+            username=user_name,
+            email=email,
+            password=password
+        )
 
         custom_user.save()
 

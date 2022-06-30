@@ -7,11 +7,10 @@ from ..views import SignUpView, SignUpSuccessView, UserUpdateView
 
 
 # Create your tests here.
-class TestUrls(TestCase):
+class UserUrls(TestCase):
     """
     ユーザー情報関連のURLのテスト
     """
-
     def test_sign_up(self):
         view = resolve('/signup/')
         self.assertEqual(view.func.view_class, SignUpView)
