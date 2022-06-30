@@ -41,6 +41,53 @@ class AjaxTests(TestCase):
             if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
                 raise
 
+    def create_visit(self):
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_name = visit_btn.get_attribute("title")
+        self.assertEqual(visit_btn_name, "未訪問")
+
+        visit_btn.click()
+        time.sleep(1)
+
+    def delete_visit(self):
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_name = visit_btn.get_attribute("title")
+        self.assertEqual(visit_btn_name, "訪問済み")
+
+        visit_btn.click()
+
+    def create_like(self):
+        like_btn = self.driver.find_element(By.ID, "like")
+        like_btn.click()
+        time.sleep(1)
+
+    def delete_like(self):
+        like_btn = self.driver.find_element(By.ID, "like")
+        like_btn.click()
+        time.sleep(1)
+
+    def create_category(self):
+        category_new_btn = self.driver.find_element(By.ID, "category-new")
+        category_new_btn_title = category_new_btn.get_attribute("title")
+        self.assertEqual(category_new_btn_title, "カテゴリ追加")
+
+        # カテゴリを新規に登録できるか
+        category_new_btn.click()
+        time.sleep(1)
+
+        new_category = self.driver.find_element(By.NAME, "new-category")
+        new_category.send_keys("test-category")
+        self.driver.find_element(By.ID, "create-category").click()
+
+        time.sleep(1)
+
+    def delete_category(self):
+        self.driver.find_element(By.ID, "category-edit").click()
+
+        time.sleep(1)
+
+        self.driver.find_element(By.ID, "delete-category").click()
+
     def test_visit(self):
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
@@ -187,3 +234,53 @@ class AjaxTests(TestCase):
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
 
         self.assertEqual(len(twitter_posts), 50)
+
+    def test_narrow(self):
+        self.driver.get("http://localhost:8000/")
+        time.sleep(1)
+
+        # お気に入り・訪問済みを作成
+        self.login_check()
+
+        self.create_like()
+        self.create_visit()
+        self.create_category()
+
+        # 絞り込み機能のテスト
+        self.driver.find_element(By.ID, "modal-open").click()
+        time.sleep(1)
+
+        modal = self.driver.find_element(By.ID, "modal")
+        modal_class = modal.get_attribute("class")
+
+        self.assertTrue("active" in modal_class)
+
+        self.driver.find_element(By.ID, "narrow-like").click()
+        time.sleep(1)
+
+        twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
+        self.assertEqual(len(twitter_posts), 1)
+
+        self.driver.find_element(By.ID, "narrow-visit").click()
+        time.sleep(1)
+
+        twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
+        self.assertEqual(len(twitter_posts), 1)
+
+        self.driver.find_element(By.ID, "narrow-all").click()
+        time.sleep(1)
+
+        twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
+        self.assertEqual(len(twitter_posts), 25)
+
+        self.driver.find_element(By.NAME, "narrow-category").click()
+        time.sleep(1)
+        twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
+        self.assertEqual(len(twitter_posts), 1)
+
+        # お気に入り・訪問済みを削除
+        self.driver.refresh()
+
+        self.delete_category()
+        self.delete_like()
+        self.delete_visit()
