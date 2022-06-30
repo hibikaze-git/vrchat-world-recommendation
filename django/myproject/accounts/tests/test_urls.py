@@ -43,7 +43,7 @@ class UserUrls(TestCase):
 
         custom_user.save()
 
-        view = resolve(f'/update/{custom_user.pk}')
+        view = resolve(f'/update/{custom_user.pk}/')
         self.assertEqual(view.func.view_class, UserUpdateView)
 
 

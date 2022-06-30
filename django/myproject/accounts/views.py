@@ -1,11 +1,12 @@
-from django.views.generic import CreateView, TemplateView
-from .forms import CustomUserCreationForm
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import UpdateView
-from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView, TemplateView, UpdateView
+
+from .forms import CustomUserCreationForm
 from .models import CustomUser
-from django.contrib import messages
 
 
 # Create your views here.

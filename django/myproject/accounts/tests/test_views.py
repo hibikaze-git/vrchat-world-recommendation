@@ -86,7 +86,7 @@ class UserUpdateTests(TestCase):
         edit_email = "edituser@mail.com"
 
         response = self.client.post(
-            path=f'/update/{self.custom_user.pk}',
+            path=f'/update/{self.custom_user.pk}/',
             data={
                 "username": edit_username,
                 "email": edit_email,
@@ -96,6 +96,6 @@ class UserUpdateTests(TestCase):
         saved_user = CustomUser.objects.all()
         actual_user = saved_user[0]
 
-        self.assertRedirects(response, f'/update/{self.custom_user.pk}', status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
+        self.assertRedirects(response, f'/update/{self.custom_user.pk}/', status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
         self.assertEqual(actual_user.username, edit_username)
         self.assertEqual(actual_user.email, edit_email)
