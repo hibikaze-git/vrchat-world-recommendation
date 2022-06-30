@@ -23,26 +23,75 @@ class AjaxTests(TestCase):
         self.username = os.environ.get('TEST_USER_NAME')
         self.password = os.environ.get('TEST_USER_PASS')
 
+    def login_check(self):
+        if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
+            self.driver.find_element(By.LINK_TEXT, "ログイン").click()
+            time.sleep(1)
+
+            user_name_box = self.driver.find_element(By.ID, "id_username")
+            user_name_box.send_keys(self.username)
+
+            pass_box = self.driver.find_element(By.ID, "id_password")
+            pass_box.send_keys(self.password)
+
+            self.driver.find_element(By.ID, "id_submit").click()
+            time.sleep(1)
+
+            if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
+                raise
+
     def test_login(self):
         self.driver.get("http://localhost:8000/")
-        time.sleep(2)
+        time.sleep(1)
 
-        login_check(self.driver, self.username, self.password)
+        self.login_check()
 
+    def test_visit(self):
+        self.driver.get("http://localhost:8000/")
+        time.sleep(1)
 
-def login_check(driver, username, password):
-    if len(driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
-        driver.find_element(By.LINK_TEXT, "ログイン").click()
-        time.sleep(2)
+        self.login_check()
 
-        user_name_box = driver.find_element(By.ID, "id_username")
-        user_name_box.send_keys(username)
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_name = visit_btn.get_attribute("title")
+        self.assertEqual(visit_btn_name, "未訪問")
 
-        pass_box = driver.find_element(By.ID, "id_password")
-        pass_box.send_keys(password)
+        visit_btn.click()
+        time.sleep(1)
 
-        driver.find_element(By.ID, "id_submit").click()
-        time.sleep(2)
+        self.driver.refresh()
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_name = visit_btn.get_attribute("title")
+        self.assertEqual(visit_btn_name, "訪問済み")
 
-        if len(driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
-            raise
+        visit_btn.click()
+        time.sleep(1)
+
+        self.driver.refresh()
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_name = visit_btn.get_attribute("title")
+        self.assertEqual(visit_btn_name, "未訪問")
+
+    def test_like(self):
+        self.driver.get("http://localhost:8000/")
+        time.sleep(1)
+
+        self.login_check()
+
+        like_btn = self.driver.find_element(By.ID, "like")
+        like_btn.click()
+        time.sleep(1)
+
+        self.driver.refresh()
+        category_new_btn = self.driver.find_element(By.ID, "category-new")
+        category_new_btn_title = category_new_btn.get_attribute("title")
+        self.assertEqual(category_new_btn_title, "カテゴリ追加")
+
+        like_btn = self.driver.find_element(By.ID, "like")
+        like_btn.click()
+        time.sleep(1)
+
+        self.driver.refresh()
+        like_btn = self.driver.find_element(By.ID, "like")
+        like_btn_title = like_btn.get_attribute("title")
+        self.assertEqual(like_btn_title, "お気に入りに登録")
