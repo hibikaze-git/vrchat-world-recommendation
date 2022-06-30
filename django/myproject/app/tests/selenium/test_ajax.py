@@ -6,6 +6,7 @@ import chromedriver_binary
 from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
 
 
 class AjaxTests(TestCase):
@@ -40,12 +41,6 @@ class AjaxTests(TestCase):
             if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
                 raise
 
-    def test_login(self):
-        self.driver.get("http://localhost:8000/")
-        time.sleep(1)
-
-        self.login_check()
-
     def test_visit(self):
         self.driver.get("http://localhost:8000/")
         time.sleep(1)
@@ -78,6 +73,7 @@ class AjaxTests(TestCase):
 
         self.login_check()
 
+        # likeボタンが機能するか
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
         time.sleep(1)
@@ -87,6 +83,87 @@ class AjaxTests(TestCase):
         category_new_btn_title = category_new_btn.get_attribute("title")
         self.assertEqual(category_new_btn_title, "カテゴリ追加")
 
+        # カテゴリの新規登録状態から戻れるか
+        category_new_btn.click()
+        time.sleep(1)
+
+        back_btn = self.driver.find_element(By.ID, "back-category")
+        back_btn_title = back_btn.get_attribute("title")
+        self.assertEqual(back_btn_title, "戻る")
+
+        back_btn.click()
+        time.sleep(1)
+
+        self.driver.refresh()
+        category_new_btn = self.driver.find_element(By.ID, "category-new")
+        category_new_btn_title = category_new_btn.get_attribute("title")
+        self.assertEqual(category_new_btn_title, "カテゴリ追加")
+
+        # カテゴリを新規に登録できるか
+        category_new_btn.click()
+        time.sleep(1)
+
+        new_category = self.driver.find_element(By.NAME, "new-category")
+        new_category.send_keys("test-category")
+        self.driver.find_element(By.ID, "create-category").click()
+
+        time.sleep(1)
+
+        dropdown = self.driver.find_element(By.ID, "category-dropdown")
+        select = Select(dropdown)
+        selected = select.first_selected_option
+        self.assertEqual(selected.text, "test-category")
+
+        time.sleep(1)
+
+        # カテゴリを変更可能か
+        select.select_by_visible_text("-")
+
+        time.sleep(1)
+        self.driver.refresh()
+
+        dropdown = self.driver.find_element(By.ID, "category-dropdown")
+        select = Select(dropdown)
+        selected = select.first_selected_option
+        self.assertEqual(selected.text, "-")
+
+        # カテゴリを編集可能か
+        select.select_by_visible_text("test-category")
+
+        time.sleep(1)
+        self.driver.refresh()
+
+        self.driver.find_element(By.ID, "category-edit").click()
+
+        time.sleep(1)
+
+        edit_category = self.driver.find_element(By.NAME, "edit-category")
+        edit_category.send_keys("-edit")
+        self.driver.find_element(By.ID, "update-category").click()
+
+        time.sleep(1)
+
+        dropdown = self.driver.find_element(By.ID, "category-dropdown")
+        select = Select(dropdown)
+        selected = select.first_selected_option
+        self.assertEqual(selected.text, "test-category-edit")
+
+        # カテゴリを削除できるか
+        self.driver.find_element(By.ID, "category-edit").click()
+
+        time.sleep(1)
+
+        self.driver.find_element(By.ID, "delete-category").click()
+
+        time.sleep(1)
+        self.driver.refresh()
+
+        dropdown = self.driver.find_element(By.ID, "category-dropdown")
+        select = Select(dropdown)
+        selected = select.first_selected_option
+        self.assertEqual(selected.text, "-")
+
+        # お気に入りを解除できるか
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
         time.sleep(1)

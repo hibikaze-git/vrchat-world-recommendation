@@ -2,7 +2,7 @@
 
 {% load twitter_like_tags %}
 <div class="d-flex">
-    <select name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
+    <select id="category-dropdown" name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
 
         {% if liked_objects|return_category:record is None %}
             <option value="-1" selected>-</option>
