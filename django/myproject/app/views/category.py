@@ -26,15 +26,10 @@ def change_category_view(request):
             like.save()
 
         context = {
-            "twitter_post_id": twitter_post.id,
-            "record": twitter_post
+            "record": twitter_post,
+            "category_objects": TwitterCategory.objects.filter(user=user),
+            "liked_objects": TwitterLike.objects.filter(user=user)
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
@@ -49,7 +44,6 @@ def new_category_view(request):
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
 
         context = {
-            "twitter_post_id": twitter_post.id,
             "record": twitter_post
         }
 
@@ -67,15 +61,10 @@ def back_category_view(request):
         user = request.user
 
         context = {
-            "twitter_post_id": twitter_post.id,
-            "record": twitter_post
+            "record": twitter_post,
+            "category_objects": TwitterCategory.objects.filter(user=user),
+            "liked_objects": TwitterLike.objects.filter(user=user)
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
@@ -102,15 +91,10 @@ def create_category_view(request):
             twitter_like.save()
 
         context = {
-            "twitter_post_id": twitter_post.id,
-            "record": twitter_post
+            "record": twitter_post,
+            "category_objects": TwitterCategory.objects.filter(user=user),
+            "liked_objects": TwitterLike.objects.filter(user=user)
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
@@ -127,16 +111,9 @@ def edit_category_view(request):
         liked = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first()
 
         context = {
-            "twitter_post_id": twitter_post.id,
             "record": twitter_post,
             "liked": liked
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
@@ -161,15 +138,10 @@ def delete_category_view(request):
             delete_category.delete()
 
         context = {
-            "twitter_post_id": twitter_post.id,
-            "record": twitter_post
+            "record": twitter_post,
+            "category_objects": TwitterCategory.objects.filter(user=user),
+            "liked_objects": TwitterLike.objects.filter(user=user)
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
@@ -196,15 +168,10 @@ def update_category_view(request):
             update_category.save()
 
         context = {
-            "twitter_post_id": twitter_post.id,
-            "record": twitter_post
+            "record": twitter_post,
+            "category_objects": TwitterCategory.objects.filter(user=user),
+            "liked_objects": TwitterLike.objects.filter(user=user)
         }
-
-        context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
-
-        context["category_objects"] = TwitterCategory.objects.filter(user=user)
-
-        context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
