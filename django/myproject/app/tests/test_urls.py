@@ -17,7 +17,7 @@ class TestUrls(TestCase):
         self.assertEqual(view.func.view_class, IndexView)
 
     def test_search_index(self):
-        view = resolve('/search_index')
+        view = resolve('/search_index/')
         self.assertEqual(view.func.view_class, IndexSearchView)
 
     def test_recent(self):
@@ -26,44 +26,44 @@ class TestUrls(TestCase):
 
     # like
     def test_like(self):
-        view = resolve('/like')
+        view = resolve('/like/')
         self.assertEqual(view.func, like_view)
 
     # visit
     def test_visit(self):
-        view = resolve('/visit')
+        view = resolve('/visit/')
         self.assertEqual(view.func, visit_view)
 
     # category
     def test_change_category(self):
-        view = resolve('/change_category')
+        view = resolve('/category/change/')
         self.assertEqual(view.func, change_category_view)
 
     def test_new_category(self):
-        view = resolve('/new_category')
+        view = resolve('/category/new/')
         self.assertEqual(view.func, new_category_view)
 
     def test_back_category(self):
-        view = resolve('/back_category')
+        view = resolve('/category/back/')
         self.assertEqual(view.func, back_category_view)
 
     def test_create_category(self):
-        view = resolve('/create_category')
+        view = resolve('/category/create/')
         self.assertEqual(view.func, create_category_view)
 
     def test_edit_category(self):
-        view = resolve('/edit_category')
+        view = resolve('/category/edit/')
         self.assertEqual(view.func, edit_category_view)
 
     def test_delete_category(self):
-        view = resolve('/delete_category')
+        view = resolve('/category/delete/')
         self.assertEqual(view.func, delete_category_view)
 
     def test_update_category(self):
-        view = resolve('/update_category')
+        view = resolve('/category/update/')
         self.assertEqual(view.func, update_category_view)
 
     # 絞り込み機能
     def test_narrow(self):
-        view = resolve('/narrow')
+        view = resolve('/narrow/')
         self.assertEqual(view.func, narrow_view)

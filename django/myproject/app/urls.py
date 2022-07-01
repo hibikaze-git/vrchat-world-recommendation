@@ -14,39 +14,39 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
 
     # 検索
-    path('search_index', IndexSearchView.as_view(), name='search_index'),
+    path('search_index/', IndexSearchView.as_view(), name='search_index'),
 
     # ワールド投稿取得
     path('twitter/recent/', update_twitter_post, name='recent'),
 
     # お気に入り
-    path('like', like_view, name='like'),
+    path('like/', like_view, name='like'),
 
     # 訪問済み
-    path('visit', visit_view, name='visit'),
-
-    # カテゴリ変更
-    path('change_category', change_category_view, name='change_category'),
+    path('visit/', visit_view, name='visit'),
 
     # カテゴリ
+    # カテゴリ変更
+    path('category/change/', change_category_view, name='change_category'),
+
     # new
-    path('new_category', new_category_view, name='new_category'),
+    path('category/new/', new_category_view, name='new_category'),
 
     # カテゴリ作成取りやめ
-    path('back_category', back_category_view, name='back_category'),
+    path('category/back/', back_category_view, name='back_category'),
 
     # create
-    path('create_category', create_category_view, name='create_category'),
+    path('category/create/', create_category_view, name='create_category'),
 
     # edit
-    path('edit_category', edit_category_view, name='edit_category'),
+    path('category/edit/', edit_category_view, name='edit_category'),
 
     # delete
-    path('delete_category', delete_category_view, name='delete_category'),
+    path('category/delete/', delete_category_view, name='delete_category'),
 
     # update
-    path('update_category', update_category_view, name='update_category'),
+    path('category/update/', update_category_view, name='update_category'),
 
     # モーダル
-    path('narrow', narrow_view, name='narrow'),
+    path('narrow/', narrow_view, name='narrow'),
 ]
