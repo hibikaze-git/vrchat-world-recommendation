@@ -1,9 +1,16 @@
+<!-- 絞り込み機能-->
 <div class="modal-body">
+
+    <!-- モーダルを閉じるボタン-->
     <div id="modal-close" class="modal-close">×</div>
+
+    <!-- モーダル-->
     <div class="modal-content">
         <p class="own-lead-form pb-3">絞り込み</p>
 
         <form id="narrow-form" class="own-form">
+
+            <!-- 範囲絞り込み-->
             <div id="narrow-range" class="own-item">
                 <p class="own-label">範囲</p>
                 <label>
@@ -20,16 +27,22 @@
                 </label>
             </div>
 
+            <!-- カテゴリ絞り込み-->
             <div class="own-item">
                 <p class="own-label">カテゴリ</p>
+
                 <div id="narrow-category" class="own-inputs">
+
+                    <!-- ユーザーのカテゴリ一覧を表示-->
                     {% for category in category_objects %}
                         <label>
                             <input type="checkbox" class="own-input-test" name="narrow-category" value="{{category.id}}">
                             {{category.category}}
                         </label>
                     {% endfor %}
+
                 </div>
+
             </div>
 
         </form>

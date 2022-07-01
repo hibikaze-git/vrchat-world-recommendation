@@ -28,9 +28,11 @@
                 <option value="50">50件</option>
                 <option value="100">100件</option>
             </select>
+
             {% if not request.user.is_anonymous %}
                 <button id="modal-open" class="btn btn-outline-dark">絞り込み</button>
             {% endif %}
+            
             <input class="align-items-center" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
         </div>
 

@@ -28,12 +28,14 @@
                         <li class="nav-item"><a class="nav-link  text-white" aria-current="page" href={% url 'app:index' %}>トップページ</a></li>
                         
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:update' pk=user.pk %}">マイページ</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:logout' %}">ログアウト</a></li>
+
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:update' pk=user.pk %}">マイページ</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:logout' %}">ログアウト</a></li>
                         
                         {% else %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:signup' %}">サインアップ</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:login' %}">ログイン</a></li>
+
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:signup' %}">サインアップ</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:login' %}">ログイン</a></li>
                         
                         {% endif %}
 
