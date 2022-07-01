@@ -11291,7 +11291,7 @@ textarea.form-control-lg {
 * added the following css myself. 
 */
 .own-select-width {
-  width: 130px;
+  width: 90px;
 }
 
 .transform-scale-all {
@@ -11454,4 +11454,10 @@ textarea.form-control-lg {
   display: block;
   float: left;
   width: 110px;
+}
+
+.own-search-input{
+  border-color: black;
+  border: 1px solid;
+  border-radius: 0.25rem;
 }

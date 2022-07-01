@@ -23,7 +23,7 @@
     {% block contents %}
         <!-- 検索バー-->
         <div class="d-flex px-6 py-4 gap-2 own-search">
-            <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="表示件数選択">
+            <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold; border-color: black;" title="表示件数選択">
                 <option value="25" selected>25件</option>
                 <option value="50">50件</option>
                 <option value="100">100件</option>
@@ -33,7 +33,7 @@
                 <button id="modal-open" class="btn btn-outline-dark">絞り込み</button>
             {% endif %}
 
-            <input class="align-items-center" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
+            <input class="align-items-center own-search-input" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
         </div>
 
         <!-- モーダル-->
