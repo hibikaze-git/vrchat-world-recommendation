@@ -8,7 +8,7 @@ from ..models import TwitterCategory, TwitterLike, TwitterPost
 
 def change_category_view(request):
     if request.method == "POST":
-        get_id = int(request.POST.get('twitter_post_id').replace("category-select_", ""))
+        get_id = int(request.POST.get('twitter_post_id'))
         get_category_id = int(request.POST.get('selected_category_id'))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
@@ -44,7 +44,7 @@ def change_category_view(request):
 def new_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id').replace("category-new_", ""))
+        get_id = int(request.POST.get('twitter_post_id'))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
 
@@ -85,7 +85,7 @@ def back_category_view(request):
 def create_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id').replace("create-category_", ""))
+        get_id = int(request.POST.get('twitter_post_id'))
         new_category_name = request.POST.get('new_category_name')
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
