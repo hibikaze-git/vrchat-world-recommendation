@@ -1,8 +1,12 @@
 from django.test import TestCase
 from django.urls import resolve
 
+from ..views.category import *
 from ..views.index import *
+from ..views.like import *
+from ..views.narrow import *
 from ..views.twitter_view import update_twitter_post
+from ..views.visit import *
 
 
 # Create your tests here.
@@ -23,7 +27,7 @@ class TestUrls(TestCase):
     # like
     def test_like(self):
         view = resolve('/like')
-        self.assertEqual(view.func, LikeView)
+        self.assertEqual(view.func, like_view)
 
     # visit
     def test_visit(self):

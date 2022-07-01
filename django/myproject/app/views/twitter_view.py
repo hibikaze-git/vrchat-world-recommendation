@@ -1,3 +1,6 @@
+"""
+twitter投稿データの更新用view
+"""
 from django.shortcuts import redirect
 
 from ..models.twitter_post import TwitterPost

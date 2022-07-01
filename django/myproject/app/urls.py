@@ -1,6 +1,11 @@
 from django.urls import path
+
+from .views.category import *
 from .views.index import *
+from .views.like import *
+from .views.narrow import *
 from .views.twitter_view import update_twitter_post
+from .views.visit import *
 
 app_name = 'app'
 
@@ -15,7 +20,7 @@ urlpatterns = [
     path('twitter/recent/', update_twitter_post, name='recent'),
 
     # お気に入り
-    path('like', LikeView, name='like'),
+    path('like', like_view, name='like'),
 
     # 訪問済み
     path('visit', visit_view, name='visit'),
