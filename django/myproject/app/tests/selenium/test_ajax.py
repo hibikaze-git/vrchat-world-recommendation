@@ -43,7 +43,7 @@ class AjaxTests(TestCase):
             time.sleep(2)
 
             if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
-                raise
+                raise Exception("ログインに失敗しました")
 
     def create_visit(self):
         """

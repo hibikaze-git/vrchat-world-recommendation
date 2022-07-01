@@ -80,10 +80,11 @@ def create_category_view(request):
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
 
+        # カテゴリが存在するかを確認
         exist_check = TwitterCategory.objects.filter(user=user, category=new_category_name).first()
 
         if exist_check is not None or new_category_name == "":
-            raise
+            raise Exception("既に存在するカテゴリです")
         else:
             new_category = TwitterCategory.objects.create(user=user, category=new_category_name)
             twitter_like = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first()
@@ -133,7 +134,7 @@ def delete_category_view(request):
         delete_category = liked.category
 
         if delete_category is None or delete_category == "":
-            raise
+            raise Exception("存在しないカテゴリです")
         else:
             delete_category.delete()
 
@@ -157,10 +158,11 @@ def update_category_view(request):
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
 
+        # カテゴリが存在するかを確認
         exist_check = TwitterCategory.objects.filter(user=user, category=update_category_name).first()
 
         if exist_check is not None or update_category_name == "":
-            raise
+            raise Exception("既に存在するカテゴリです")
         else:
             update_category = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first().category
             update_category.category = update_category_name
