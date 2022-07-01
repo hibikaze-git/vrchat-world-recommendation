@@ -2,8 +2,9 @@
 
 {% load twitter_like_tags %}
 <div class="d-flex">
-    <select name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
+    <select id="category-dropdown" name="category-select_{{record.id}}" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="カテゴリ設定">
 
+        <!-- 空カテゴリを追加-->
         {% if liked_objects|return_category:record is None %}
             <option value="-1" selected>-</option>
         {% else %}
@@ -23,6 +24,8 @@
     <button id="category-new" name="category-new_{{record.id}}" class="btn own-like-padding" title="カテゴリ追加">
         <i class="fa-solid fa-plus"></i>
     </button>
+
+    <!-- 空カテゴリ以外では編集ボタンを表示-->
     {% if liked_objects|return_category:record is not None %}
         <button id="category-edit" name="category-edit_{{record.id}}" class="btn own-like-padding" title="カテゴリ編集">
             <i class="fa-solid fa-pen-to-square"></i>

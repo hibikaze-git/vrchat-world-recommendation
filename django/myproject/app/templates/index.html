@@ -9,7 +9,7 @@
     {% block header %}
         {% if request.user.is_anonymous %}
             <!-- Header-->
-            <header class="py-5 own-bg-image" style="border-bottom: 0.05rem solid; border-bottom-color: lightgray">
+            <header class="py-5 own-bg-image" style="border-bottom: 0.05rem solid; border-bottom-color: gray">
                 <div class="container px-4 px-lg-5 my-3">
                     <div class="text-center">
                         <h1 class="display-5 fw-bolder">VRChat World Recommender</h1>
@@ -23,15 +23,17 @@
     {% block contents %}
         <!-- 検索バー-->
         <div class="d-flex px-6 py-4 gap-2 own-search">
-            <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold;" title="表示件数選択">
+            <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold; border-color: black;" title="表示件数選択">
                 <option value="25" selected>25件</option>
                 <option value="50">50件</option>
                 <option value="100">100件</option>
             </select>
+
             {% if not request.user.is_anonymous %}
                 <button id="modal-open" class="btn btn-outline-dark">絞り込み</button>
             {% endif %}
-            <input class="align-items-center" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
+
+            <input class="align-items-center own-search-input" type="search" id="search" name="search" value="{{search_word}}" placeholder="検索ワードを入力">
         </div>
 
         <!-- モーダル-->
@@ -45,8 +47,10 @@
         </div>
 
         <script type="text/javascript">
-            // お気に入り
+
             $(document).ready(function(event){
+
+                // お気に入り
                 $(document).on('click', '#like', function(event){
                     event.preventDefault();
                     let twitter_post_id = $(this).attr('name');
@@ -55,16 +59,18 @@
                         type: 'POST',
                         url: "{% url 'app:like' %}",
                         data: {
-                            'twitter_post_id': $(this).attr('name'),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'twitter_post_id': twitter_post_id,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
 
                             selectorUserLike = document.getElementsByName("user_like_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -75,17 +81,21 @@
                 // 訪問済み
                 $(document).on('click', '#visit', function(event){
                     event.preventDefault();
+
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:visit' %}",
                         data: {
                             'twitter_post_id': $(this).attr('name'),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
                         dataType: 'json',
+
                         success: function(response){
                             select_name = "visit_" + response.twitter_post_id;
 
                             selector = document.getElementsByName(select_name);
+
                             if(response.visited){
                                 $(selector).html(' <i class="fa-solid fa-calendar-check" title="訪問済み"></i>');
                             }
@@ -99,23 +109,26 @@
                 // カテゴリ選択
                 $(document).on('change', "[name^='category-select_']", function(event){
                     event.preventDefault();
+
                     let twitter_post_id = $(this).attr('name').split("_")[1];
 
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:change_category' %}",
                         data: {
-                            'twitter_post_id': $(this).attr('name'),
+                            'twitter_post_id': twitter_post_id,
                             "selected_category_id": $(this).val(),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -123,27 +136,27 @@
                     });
                 });
 
+                // カテゴリ新規作成
                 $(document).on('click', '#category-new', function(event){
                     event.preventDefault();
-                    let twitter_post_id = $(this).attr('name');
+                    let twitter_post_id = $(this).attr('name').split("_")[1];
 
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:new_category' %}",
                         data: {
-                            'twitter_post_id': $(this).attr('name'),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'twitter_post_id': twitter_post_id,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
-                            console.log("like_category_" + twitter_post_id)
-
-                            twitter_post_id = twitter_post_id.split("_")[1];
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -151,6 +164,7 @@
                     });
                 });
 
+                // カテゴリ選択から戻るボタン
                 $(document).on('click', '#back-category', function(event){
                     event.preventDefault();
                     let twitter_post_id = $(this).attr('name').split("_")[1];
@@ -160,16 +174,17 @@
                         url: "{% url 'app:back_category' %}",
                         data: {
                             'twitter_post_id': twitter_post_id,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
-                            //twitter_post_id = twitter_post_id.split("_")[1];
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -177,54 +192,50 @@
                     });
                 });
 
+                // カテゴリ作成
                 $(document).on('click', '#create-category', function(event){
                     event.preventDefault();
-                    let twitter_post_id = $(this).attr('name');
-                    twitter_post_id = twitter_post_id.split("_")[1];
+                    let twitter_post_id = $(this).attr('name').split("_")[1];
 
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:create_category' %}",
                         data: {
-                            'twitter_post_id': $(this).attr('name'),
+                            'twitter_post_id': twitter_post_id,
                             'new_category_name': $(document).find("#create-category-input_"+twitter_post_id).val(),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
-                            //twitter_post_id = twitter_post_id.split("_")[1];
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
-                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']")
-
-                            console.log(selectCategoryMenus)
+                            // 画面内のカテゴリプルダウンを全て更新する
+                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");
 
                             for (let select of selectCategoryMenus) {
                                 
                                 if (select.childElementCount != 0){
                                     let selectId = $(select).attr("name").split("_")[2];
-
-                                    console.log(selectId)
-                                    
-
+                                  
                                     $.ajax({
                                         type: 'POST',
                                         url: "{% url 'app:back_category' %}",
                                         data: {
                                             'twitter_post_id': selectId,
-                                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                        },
 
                                         success: function(response){
 
                                             let selectorOther = document.getElementsByName("like_category_" + selectId);
 
-                                            console.log(selectorOther)
-
-                                            $(selectorOther).html(response)
+                                            $(selectorOther).html(response);
 
                                         },
+
                                         error: function (xhr, textStatus, errorThrown) {
                                             alert("読み込み失敗");
                                             var res = $.parseJSON(xhr.responseText);
@@ -236,12 +247,14 @@
                             }
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("すでに存在しているカテゴリです。");
                         }
                     });
                 });
                 
+                // カテゴリ編集
                 $(document).on('click', '#category-edit', function(event){
                     event.preventDefault();
                     let twitter_post_id = $(this).attr('name').split("_")[1];
@@ -251,15 +264,17 @@
                         url: "{% url 'app:edit_category' %}",
                         data: {
                             'twitter_post_id': twitter_post_id,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -267,52 +282,49 @@
                     });
                 });
 
+                // カテゴリ削除
                 $(document).on('click', '#delete-category', function(event){
                     event.preventDefault();
-                    let twitter_post_id = $(this).attr('name');
-                    twitter_post_id = twitter_post_id.split("_")[1];
+                    let twitter_post_id = $(this).attr('name').split("_")[1];
 
                     $.ajax({
                         type: 'POST',
                         url: "{% url 'app:delete_category' %}",
                         data: {
                             'twitter_post_id': twitter_post_id,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
-                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']")
-
-                            console.log(selectCategoryMenus)
+                            // 画面内のカテゴリプルダウンを全て更新する
+                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");
 
                             for (let select of selectCategoryMenus) {
                                 
                                 if (select.childElementCount != 0){
                                     let selectId = $(select).attr("name").split("_")[2];
-
-                                    console.log(selectId)
-                                    
-
+                                   
                                     $.ajax({
                                         type: 'POST',
                                         url: "{% url 'app:back_category' %}",
                                         data: {
                                             'twitter_post_id': selectId,
-                                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                        },
 
                                         success: function(response){
 
                                             let selectorOther = document.getElementsByName("like_category_" + selectId);
 
-                                            console.log(selectorOther)
-
-                                            $(selectorOther).html(response)
+                                            $(selectorOther).html(response);
 
                                         },
+
                                         error: function (xhr, textStatus, errorThrown) {
                                             alert("読み込み失敗");
                                             var res = $.parseJSON(xhr.responseText);
@@ -324,16 +336,17 @@
                             }
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("すでに存在しているカテゴリです。");
                         }
                     });
                 });
 
+                // カテゴリ更新
                 $(document).on('click', '#update-category', function(event){
                     event.preventDefault();
-                    let twitter_post_id = $(this).attr('name');
-                    twitter_post_id = twitter_post_id.split("_")[1];
+                    let twitter_post_id = $(this).attr('name').split("_")[1];
 
                     $.ajax({
                         type: 'POST',
@@ -341,42 +354,39 @@
                         data: {
                             'twitter_post_id': twitter_post_id,
                             'update_category_name': $(document).find("#edit-category-input_"+twitter_post_id).val(),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
 
                         success: function(response){
 
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
-                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']")
-
-                            console.log(selectCategoryMenus)
+                            // 画面内のカテゴリプルダウンを全て更新する
+                            selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");
 
                             for (let select of selectCategoryMenus) {
                                 
                                 if (select.childElementCount != 0){
                                     let selectId = $(select).attr("name").split("_")[2];
 
-                                    console.log(selectId)
-                                    
-
                                     $.ajax({
                                         type: 'POST',
                                         url: "{% url 'app:back_category' %}",
                                         data: {
                                             'twitter_post_id': selectId,
-                                            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                        },
 
                                         success: function(response){
 
                                             let selectorOther = document.getElementsByName("like_category_" + selectId);
 
-                                            console.log(selectorOther)
-
-                                            $(selectorOther).html(response)
+                                            $(selectorOther).html(response);
 
                                         },
+
                                         error: function (xhr, textStatus, errorThrown) {
                                             alert("読み込み失敗");
                                             var res = $.parseJSON(xhr.responseText);
@@ -388,23 +398,27 @@
                             }
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("すでに存在しているカテゴリです。");
                         }
                     });
                 });
 
+                // 検索
                 $(document).on('input', '#search', function(event){
                     event.preventDefault();
-                    parents = $(document).find("#narrow-form")
 
-                    checkedRange = parents.find("input[name=narrow-radio]:checked")
-                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+                    // 絞り込みの状態を確認
+                    parents = $(document).find("#narrow-form");
+
+                    checkedRange = parents.find("input[name=narrow-radio]:checked");
+                    checkedCategory = parents.find("input[name=narrow-category]:checked");
 
                     checkedCategoryIdList = [];
 
                     checkedCategory.each(function(){
-                        checkedCategoryIdList.push($(this).val())
+                        checkedCategoryIdList.push($(this).val());
                     })
 
                     $.ajax({
@@ -422,9 +436,10 @@
 
                             selectorUserLike = document.getElementById("contents");
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -432,17 +447,20 @@
                     });
                 });
 
+                // モーダル表示
                 $(document).on('click', '#modal-open', function(event){
                     event.preventDefault();
-                    parents = $(document).find("#narrow-form")
 
-                    checkedRange = parents.find("input[name=narrow-radio]:checked").val()
-                    checkedCategory = parents.find("input[name=narrow-category]:checked")
+                    // 絞り込みの状態を確認
+                    parents = $(document).find("#narrow-form");
+
+                    checkedRange = parents.find("input[name=narrow-radio]:checked").val();
+                    checkedCategory = parents.find("input[name=narrow-category]:checked");
 
                     checkedCategoryIdList = [];
 
                     checkedCategory.each(function(){
-                        checkedCategoryIdList.push($(this).val())
+                        checkedCategoryIdList.push($(this).val());
                     })
 
                     $.ajax({
@@ -452,7 +470,7 @@
                         success: function(response){
 
                             container = document.getElementById("modal");
-                            $(container).html(response)
+                            $(container).html(response);
 
                             $(container).find("#narrow-form").find(`input[value=${checkedRange}]`).prop('checked', true);
 
@@ -460,7 +478,7 @@
                                 $(container).find("#narrow-category").find(`input[value=${categoryId}]`).prop('checked', true);
                             }
                             
-                            $(container).addClass("active")
+                            $(container).addClass("active");
 
                         },
                         error: function (xhr, textStatus, errorThrown) {
@@ -470,11 +488,13 @@
                     });
                 });
 
+                // モーダルを閉じる
                 $(document).on('click', '#modal-close', function(event){
                     container = document.getElementById("modal");
                     $(container).removeClass('active');
                 });
 
+                // モーダル以外クリックでモーダルを閉じる
                 $(document).on('click',function(event) {
                     if(!$(event.target).closest('.modal-body').length) {
                         container = document.getElementById("modal");
@@ -482,16 +502,18 @@
                     }
                 });
 
+                // 絞り込み
                 $(document).on('change', '#narrow-form', function(event){
                     event.preventDefault();
 
-                    checkedRange = $(this).find("input[name=narrow-radio]:checked")
-                    checkedCategory = $(this).find("input[name=narrow-category]:checked")
+                    // 絞り込みの状態を確認
+                    checkedRange = $(this).find("input[name=narrow-radio]:checked");
+                    checkedCategory = $(this).find("input[name=narrow-category]:checked");
 
                     checkedCategoryIdList = [];
 
                     checkedCategory.each(function(){
-                        checkedCategoryIdList.push($(this).val())
+                        checkedCategoryIdList.push($(this).val());
                     })
 
                     $.ajax({
@@ -509,9 +531,10 @@
 
                             selectorUserLike = document.getElementById("contents");
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
+
                         error: function (xhr, textStatus, errorThrown) {
                             alert("読み込み失敗");
                             var res = $.parseJSON(xhr.responseText);
@@ -519,17 +542,20 @@
                     });
                 });
 
+                // 表示件数変更
                 $(document).on('change', '#list-select-count', function(event){
                     event.preventDefault();
-                    narrow = $(document).find("#narrow-form")
 
-                    checkedRange = narrow.find("input[name=narrow-radio]:checked")
-                    checkedCategory = narrow.find("input[name=narrow-category]:checked")
+                    // 絞り込みの状態を確認
+                    narrow = $(document).find("#narrow-form");
+
+                    checkedRange = narrow.find("input[name=narrow-radio]:checked");
+                    checkedCategory = narrow.find("input[name=narrow-category]:checked");
 
                     checkedCategoryIdList = [];
 
                     checkedCategory.each(function(){
-                        checkedCategoryIdList.push($(this).val())
+                        checkedCategoryIdList.push($(this).val());
                     })
 
                     $.ajax({
@@ -547,7 +573,7 @@
 
                             selectorUserLike = document.getElementById("contents");
 
-                            $(selectorUserLike).html(response)
+                            $(selectorUserLike).html(response);
 
                         },
                         error: function (xhr, textStatus, errorThrown) {

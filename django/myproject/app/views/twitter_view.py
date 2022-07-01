@@ -1,3 +1,6 @@
+"""
+twitter投稿データの更新用view
+"""
 from django.shortcuts import redirect
 
 from ..models.twitter_post import TwitterPost
@@ -13,6 +16,12 @@ def update_twitter_post(request):
 
     # 登録済みのtwitter_id
     all_tweet_id_list = TwitterPost.objects.values_list("tweet_id", flat=True)
+
+    # テストの場合は件数を制限
+    if request.GET.get("test") == "true":
+        recent_search_instance.query_params["max_results"] = 10
+    else:
+        recent_search_instance.query_params["max_results"] = 100
 
     # データ取得
     json_data = recent_search_instance.main()
