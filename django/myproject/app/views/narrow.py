@@ -15,6 +15,6 @@ def narrow_view(request):
             "category_objects": TwitterCategory.objects.filter(user=user)
         }
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="narrow.html", context=context)

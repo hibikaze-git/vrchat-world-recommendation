@@ -8,8 +8,8 @@ from ..models import TwitterCategory, TwitterLike, TwitterPost
 
 def change_category_view(request):
     if request.method == "POST":
-        get_id = int(request.POST.get('twitter_post_id'))
-        get_category_id = int(request.POST.get('selected_category_id'))
+        get_id = int(request.POST.get("twitter_post_id"))
+        get_category_id = int(request.POST.get("selected_category_id"))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
@@ -26,8 +26,8 @@ def change_category_view(request):
             like.save()
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -36,7 +36,7 @@ def change_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category.html", context=context)
 
@@ -44,16 +44,16 @@ def change_category_view(request):
 def new_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
+        get_id = int(request.POST.get("twitter_post_id"))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category_new.html", context=context)
 
@@ -61,14 +61,14 @@ def new_category_view(request):
 def back_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
+        get_id = int(request.POST.get("twitter_post_id"))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -77,7 +77,7 @@ def back_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category.html", context=context)
 
@@ -85,8 +85,8 @@ def back_category_view(request):
 def create_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
-        new_category_name = request.POST.get('new_category_name')
+        get_id = int(request.POST.get("twitter_post_id"))
+        new_category_name = request.POST.get("new_category_name")
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
@@ -102,8 +102,8 @@ def create_category_view(request):
             twitter_like.save()
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -112,7 +112,7 @@ def create_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category.html", context=context)
 
@@ -120,16 +120,16 @@ def create_category_view(request):
 def edit_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
+        get_id = int(request.POST.get("twitter_post_id"))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
         liked = TwitterLike.objects.filter(user=user, twitter_post=twitter_post).first()
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post,
-            'liked': liked
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post,
+            "liked": liked
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -138,7 +138,7 @@ def edit_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category_edit.html", context=context)
 
@@ -146,7 +146,7 @@ def edit_category_view(request):
 def delete_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
+        get_id = int(request.POST.get("twitter_post_id"))
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
@@ -161,8 +161,8 @@ def delete_category_view(request):
             delete_category.delete()
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -171,7 +171,7 @@ def delete_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category.html", context=context)
 
@@ -179,8 +179,8 @@ def delete_category_view(request):
 def update_category_view(request):
     if request.method == "POST":
 
-        get_id = int(request.POST.get('twitter_post_id'))
-        update_category_name = request.POST.get('update_category_name')
+        get_id = int(request.POST.get("twitter_post_id"))
+        update_category_name = request.POST.get("update_category_name")
 
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
@@ -196,8 +196,8 @@ def update_category_view(request):
             update_category.save()
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'record': twitter_post
+            "twitter_post_id": twitter_post.id,
+            "record": twitter_post
         }
 
         context["liked_list"] = list(TwitterLike.objects.filter(user=user).values_list("twitter_post", flat=True))
@@ -206,6 +206,6 @@ def update_category_view(request):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=user)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
 
         return render(request, template_name="category.html", context=context)

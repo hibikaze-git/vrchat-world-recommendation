@@ -9,7 +9,7 @@ from ..models import TwitterPost, TwitterVisit
 
 def visit_view(request):
     if request.method == "POST":
-        get_id = int(request.POST.get('twitter_post_id').replace("visit_", ""))
+        get_id = int(request.POST.get("twitter_post_id").replace("visit_", ""))
         twitter_post = get_object_or_404(TwitterPost, pk=get_id)
         user = request.user
         visited = False
@@ -22,9 +22,9 @@ def visit_view(request):
             visited = True
 
         context = {
-            'twitter_post_id': twitter_post.id,
-            'visited': visited,
+            "twitter_post_id": twitter_post.id,
+            "visited": visited,
         }
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
         return JsonResponse(context)

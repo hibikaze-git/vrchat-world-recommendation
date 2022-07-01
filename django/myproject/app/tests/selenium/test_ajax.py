@@ -31,7 +31,7 @@ class AjaxTests(TestCase):
         """
         if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
             self.driver.find_element(By.LINK_TEXT, "ログイン").click()
-            time.sleep(1)
+            time.sleep(2)
 
             user_name_box = self.driver.find_element(By.ID, "id_username")
             user_name_box.send_keys(self.username)
@@ -40,7 +40,7 @@ class AjaxTests(TestCase):
             pass_box.send_keys(self.password)
 
             self.driver.find_element(By.ID, "id_submit").click()
-            time.sleep(1)
+            time.sleep(2)
 
             if len(self.driver.find_elements(By.LINK_TEXT, "ログアウト")) < 1:
                 raise
@@ -54,7 +54,7 @@ class AjaxTests(TestCase):
         self.assertEqual(visit_btn_name, "未訪問")
 
         visit_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
     def delete_visit(self):
         """
@@ -72,7 +72,7 @@ class AjaxTests(TestCase):
         """
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
     def delete_like(self):
         """
@@ -80,7 +80,7 @@ class AjaxTests(TestCase):
         """
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
     def create_category(self):
         """
@@ -92,13 +92,13 @@ class AjaxTests(TestCase):
 
         # カテゴリを新規に登録できるか
         category_new_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         new_category = self.driver.find_element(By.NAME, "new-category")
         new_category.send_keys("test-category")
         self.driver.find_element(By.ID, "create-category").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
     def delete_category(self):
         """
@@ -106,7 +106,7 @@ class AjaxTests(TestCase):
         """
         self.driver.find_element(By.ID, "category-edit").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.find_element(By.ID, "delete-category").click()
 
@@ -115,7 +115,7 @@ class AjaxTests(TestCase):
         訪問済み機能のテスト
         """
         self.driver.get("http://localhost:8000/")
-        time.sleep(1)
+        time.sleep(2)
 
         self.login_check()
 
@@ -126,7 +126,7 @@ class AjaxTests(TestCase):
 
         # 訪問済みにする
         visit_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
         visit_btn = self.driver.find_element(By.ID, "visit")
@@ -135,7 +135,7 @@ class AjaxTests(TestCase):
 
         # 訪問済みを解除
         visit_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
         visit_btn = self.driver.find_element(By.ID, "visit")
@@ -147,14 +147,14 @@ class AjaxTests(TestCase):
         お気に入り機能のテスト
         """
         self.driver.get("http://localhost:8000/")
-        time.sleep(1)
+        time.sleep(2)
 
         self.login_check()
 
         # likeボタンが機能するか
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
         category_new_btn = self.driver.find_element(By.ID, "category-new")
@@ -163,14 +163,14 @@ class AjaxTests(TestCase):
 
         # カテゴリの新規登録状態から戻れるか
         category_new_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         back_btn = self.driver.find_element(By.ID, "back-category")
         back_btn_title = back_btn.get_attribute("title")
         self.assertEqual(back_btn_title, "戻る")
 
         back_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
         category_new_btn = self.driver.find_element(By.ID, "category-new")
@@ -179,25 +179,25 @@ class AjaxTests(TestCase):
 
         # カテゴリを新規に登録できるか
         category_new_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         new_category = self.driver.find_element(By.NAME, "new-category")
         new_category.send_keys("test-category")
         self.driver.find_element(By.ID, "create-category").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
         select = Select(dropdown)
         selected = select.first_selected_option
         self.assertEqual(selected.text, "test-category")
 
-        time.sleep(1)
+        time.sleep(2)
 
         # カテゴリを変更可能か
         select.select_by_visible_text("-")
 
-        time.sleep(1)
+        time.sleep(2)
         self.driver.refresh()
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
@@ -208,18 +208,18 @@ class AjaxTests(TestCase):
         # カテゴリを編集可能か
         select.select_by_visible_text("test-category")
 
-        time.sleep(1)
+        time.sleep(2)
         self.driver.refresh()
 
         self.driver.find_element(By.ID, "category-edit").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         edit_category = self.driver.find_element(By.NAME, "edit-category")
         edit_category.send_keys("-edit")
         self.driver.find_element(By.ID, "update-category").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
         select = Select(dropdown)
@@ -229,11 +229,11 @@ class AjaxTests(TestCase):
         # カテゴリを削除できるか
         self.driver.find_element(By.ID, "category-edit").click()
 
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.find_element(By.ID, "delete-category").click()
 
-        time.sleep(1)
+        time.sleep(2)
         self.driver.refresh()
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
@@ -244,7 +244,7 @@ class AjaxTests(TestCase):
         # お気に入りを解除できるか
         like_btn = self.driver.find_element(By.ID, "like")
         like_btn.click()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
         like_btn = self.driver.find_element(By.ID, "like")
@@ -256,14 +256,14 @@ class AjaxTests(TestCase):
         表示件数変更機能のテスト
         """
         self.driver.get("http://localhost:8000/")
-        time.sleep(1)
+        time.sleep(2)
 
         self.login_check()
         dropdown = self.driver.find_element(By.ID, "list-select-count")
         select = Select(dropdown)
         select.select_by_visible_text("50件")
 
-        time.sleep(3)
+        time.sleep(2)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
 
@@ -274,7 +274,7 @@ class AjaxTests(TestCase):
         投稿絞り込み表示機能のテスト
         """
         self.driver.get("http://localhost:8000/")
-        time.sleep(1)
+        time.sleep(2)
 
         # お気に入り・訪問済みを作成
         self.login_check()
@@ -285,7 +285,7 @@ class AjaxTests(TestCase):
 
         # 絞り込み機能のテスト
         self.driver.find_element(By.ID, "modal-open").click()
-        time.sleep(1)
+        time.sleep(2)
 
         modal = self.driver.find_element(By.ID, "modal")
         modal_class = modal.get_attribute("class")
@@ -294,28 +294,28 @@ class AjaxTests(TestCase):
 
         # お気に入りのみ表示
         self.driver.find_element(By.ID, "narrow-like").click()
-        time.sleep(1)
+        time.sleep(2)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 1)
 
         # 訪問済みのみ表示
         self.driver.find_element(By.ID, "narrow-visit").click()
-        time.sleep(1)
+        time.sleep(2)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 1)
 
         # 全て表示
         self.driver.find_element(By.ID, "narrow-all").click()
-        time.sleep(1)
+        time.sleep(2)
 
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 25)
 
         # カテゴリを指定して絞り込み
         self.driver.find_element(By.NAME, "narrow-category").click()
-        time.sleep(1)
+        time.sleep(2)
         twitter_posts = self.driver.find_elements(By.NAME, "twitter-post")
         self.assertEqual(len(twitter_posts), 1)
 
