@@ -155,6 +155,10 @@
 
                             $(selectorUserLike).html(response);
 
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).addClass("own-display-none");
+
                         },
 
                         error: function (xhr, textStatus, errorThrown) {
@@ -182,6 +186,10 @@
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
                             $(selectorUserLike).html(response);
+
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).removeClass("own-display-none");
 
                         },
 
@@ -211,6 +219,10 @@
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
                             $(selectorUserLike).html(response);
+
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).removeClass("own-display-none");
 
                             // 画面内のカテゴリプルダウンを全て更新する
                             selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");
@@ -273,6 +285,10 @@
 
                             $(selectorUserLike).html(response);
 
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).addClass("own-display-none");
+
                         },
 
                         error: function (xhr, textStatus, errorThrown) {
@@ -300,6 +316,10 @@
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
                             $(selectorUserLike).html(response);
+
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).removeClass("own-display-none");
 
                             // 画面内のカテゴリプルダウンを全て更新する
                             selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");
@@ -362,6 +382,10 @@
                             selectorUserLike = document.getElementsByName("like_category_" + twitter_post_id);
 
                             $(selectorUserLike).html(response);
+
+                            visitBtn = document.getElementsByName("visit_" + twitter_post_id);
+                            
+                            $(visitBtn).removeClass("own-display-none");
 
                             // 画面内のカテゴリプルダウンを全て更新する
                             selectCategoryMenus = document.querySelectorAll("[name^='like_category_']");

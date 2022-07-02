@@ -110,6 +110,16 @@ class AjaxTests(TestCase):
 
         self.driver.find_element(By.ID, "delete-category").click()
 
+    def check_visit_btn_display(self):
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_class = visit_btn.get_attribute("class")
+        self.assertTrue("own-display-none" not in visit_btn_class)
+
+    def check_visit_btn_no_display(self):
+        visit_btn = self.driver.find_element(By.ID, "visit")
+        visit_btn_class = visit_btn.get_attribute("class")
+        self.assertTrue("own-display-none" in visit_btn_class)
+
     def test_visit(self):
         """
         訪問済み機能のテスト
@@ -165,6 +175,8 @@ class AjaxTests(TestCase):
         category_new_btn.click()
         time.sleep(2)
 
+        self.check_visit_btn_no_display()
+
         back_btn = self.driver.find_element(By.ID, "back-category")
         back_btn_title = back_btn.get_attribute("title")
         self.assertEqual(back_btn_title, "戻る")
@@ -177,15 +189,21 @@ class AjaxTests(TestCase):
         category_new_btn_title = category_new_btn.get_attribute("title")
         self.assertEqual(category_new_btn_title, "カテゴリ追加")
 
+        self.check_visit_btn_display()
+
         # カテゴリを新規に登録できるか
         category_new_btn.click()
         time.sleep(2)
+
+        self.check_visit_btn_no_display()
 
         new_category = self.driver.find_element(By.NAME, "new-category")
         new_category.send_keys("test-category")
         self.driver.find_element(By.ID, "create-category").click()
 
         time.sleep(2)
+
+        self.check_visit_btn_display()
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
         select = Select(dropdown)
@@ -215,11 +233,15 @@ class AjaxTests(TestCase):
 
         time.sleep(2)
 
+        self.check_visit_btn_no_display()
+
         edit_category = self.driver.find_element(By.NAME, "edit-category")
         edit_category.send_keys("-edit")
         self.driver.find_element(By.ID, "update-category").click()
 
         time.sleep(2)
+
+        self.check_visit_btn_display()
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
         select = Select(dropdown)
@@ -235,6 +257,8 @@ class AjaxTests(TestCase):
 
         time.sleep(2)
         self.driver.refresh()
+
+        self.check_visit_btn_display()
 
         dropdown = self.driver.find_element(By.ID, "category-dropdown")
         select = Select(dropdown)

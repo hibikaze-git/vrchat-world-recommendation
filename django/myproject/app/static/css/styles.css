@@ -11291,7 +11291,11 @@ textarea.form-control-lg {
 * added the following css myself. 
 */
 .own-select-width {
-  width: 90px;
+  width: 130px;
+}
+
+.own-select-width-no-visit {
+  width: 150px;
 }
 
 .transform-scale-all {
@@ -11460,4 +11464,8 @@ textarea.form-control-lg {
   border-color: black;
   border: 1px solid;
   border-radius: 0.25rem;
+}
+
+.own-display-none{
+  display: none;
 }
