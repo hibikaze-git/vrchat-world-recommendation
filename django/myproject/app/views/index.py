@@ -61,6 +61,9 @@ class IndexSearchView(ListView):
 
     # postを有効化
     def post(self, request, *args, **kwargs):
+        if request.headers.get("x-requested-with") != "XMLHttpRequest":
+            raise Exception("不正なアクセスです")
+
         return self.get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):

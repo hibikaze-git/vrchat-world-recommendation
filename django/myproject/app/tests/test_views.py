@@ -1,4 +1,5 @@
 from django.test import Client, TestCase
+from accounts.models import CustomUser
 
 
 # Create your tests here.
@@ -7,7 +8,22 @@ class UpdateTwitterPostTests(TestCase):
     update_twitter_postのテストクラス
     """
     def setUp(self):
+        user_name = "user"
+        email = "user@mail.com"
+        password = "usertestcreatepass"
+
+        custom_user = CustomUser(
+            username=user_name,
+            email=email,
+            password=password
+        )
+
+        custom_user.is_staff = True
+
+        custom_user.save()
+
         self.client = Client()
+        self.client.force_login(custom_user)
 
     def test_fetch_recent_data(self):
         # テスト用にクエリを付与
