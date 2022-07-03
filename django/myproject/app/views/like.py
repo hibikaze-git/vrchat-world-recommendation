@@ -1,11 +1,13 @@
 """
 お気に入り機能のview
 """
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 
 from ..models import TwitterCategory, TwitterLike, TwitterPost
 
 
+@login_required
 def like_view(request):
     if request.method == "POST":
         twitter_post = get_object_or_404(TwitterPost, pk=request.POST.get("twitter_post_id"))

@@ -1,6 +1,7 @@
 """
 twitter投稿データの更新用view
 """
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect
 
 from ..models.twitter_post import TwitterPost
@@ -9,6 +10,7 @@ from ..scripts.twitter.recent_search import RecentSearch
 recent_search_instance = RecentSearch()
 
 
+@staff_member_required
 def update_twitter_post(request):
     """
     twitterの最新の投稿100件を取得し、データベースに格納

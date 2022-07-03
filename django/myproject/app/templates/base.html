@@ -40,7 +40,7 @@
                         {% endif %}
 
                     </ul>
-                    {% if request.user.is_superuser %}
+                    {% if request.user.is_staff %}
                         <a class="btn btn-outline-dark text-white" href="{% url 'app:recent' %}">データ更新</a>
                     {% endif %}
                 </div>

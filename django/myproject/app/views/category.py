@@ -1,11 +1,13 @@
 """
 カテゴリ関連機能のview
 """
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 
 from ..models import TwitterCategory, TwitterLike, TwitterPost
 
 
+@login_required
 def change_category_view(request):
     if request.method == "POST":
         get_id = int(request.POST.get("twitter_post_id"))
@@ -36,6 +38,7 @@ def change_category_view(request):
         return render(request, template_name="category.html", context=context)
 
 
+@login_required
 def new_category_view(request):
     if request.method == "POST":
 
@@ -52,6 +55,7 @@ def new_category_view(request):
         return render(request, template_name="category_new.html", context=context)
 
 
+@login_required
 def back_category_view(request):
     if request.method == "POST":
 
@@ -71,6 +75,7 @@ def back_category_view(request):
         return render(request, template_name="category.html", context=context)
 
 
+@login_required
 def create_category_view(request):
     if request.method == "POST":
 
@@ -102,6 +107,7 @@ def create_category_view(request):
         return render(request, template_name="category.html", context=context)
 
 
+@login_required
 def edit_category_view(request):
     if request.method == "POST":
 
@@ -121,6 +127,7 @@ def edit_category_view(request):
         return render(request, template_name="category_edit.html", context=context)
 
 
+@login_required
 def delete_category_view(request):
     if request.method == "POST":
 
@@ -149,6 +156,7 @@ def delete_category_view(request):
         return render(request, template_name="category.html", context=context)
 
 
+@login_required
 def update_category_view(request):
     if request.method == "POST":
 

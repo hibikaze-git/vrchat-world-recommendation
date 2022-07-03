@@ -1,12 +1,14 @@
 """
 訪問済み機能のview
 """
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 
 from ..models import TwitterPost, TwitterVisit
 
 
+@login_required
 def visit_view(request):
     if request.method == "POST":
         get_id = int(request.POST.get("twitter_post_id").replace("visit_", ""))
