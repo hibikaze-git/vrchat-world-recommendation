@@ -28,6 +28,7 @@ services:
       - BEARER_TOKEN=
       - TEST_USER_NAME=
       - TEST_USER_PASS=
+      - SECRET_KEY=django-insecure-*ve&zbvze556am=cu43=893f5z#xv4_5i_3s1g0osxjnc%#ziw
     volumes:
       - ./django:/django
     ports: 
