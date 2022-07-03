@@ -32,13 +32,18 @@
 - twitterAPIを用いて投稿データを取得したい場合には、Django管理画面でスタッフユーザを作成し、アプリにログインしてください。トップページにデータ更新ボタンが出現します
 
 ## 使用方法
+- コンテナ起動
 ```
 git clone https://github.com/hibikaze-git/vrchat-world-recommendation.git
 cd vrchat-world-recommendation
 docker-compose build
 docker-compose up -d
-localhost:8000/にアクセス
 ```
+- 初回起動時は、データベースのマイグレーションを実施してください
+```
+docker-compose exec django bash -c "python3 manage.py migrate"
+```
+- localhost:8000/にアクセス
 
 ## 構成
 ### django
