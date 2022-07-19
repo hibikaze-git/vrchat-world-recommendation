@@ -156,3 +156,8 @@ EMAIL_USE_TLS = True
 # セッションの有効期限を設定
 SESSION_COOKIE_AGE = 3600
 SESSION_SAVE_EVERY_REQUEST = True
+
+# ドメイン設定
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.vrchat-world-recommender.com"
+]
