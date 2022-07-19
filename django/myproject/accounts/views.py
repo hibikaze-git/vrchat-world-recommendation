@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetView
 
+from django.conf import settings
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, TemplateView, UpdateView
@@ -41,3 +43,12 @@ class UserUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse("accounts:update", kwargs={"pk": self.kwargs["pk"]})
+
+
+# パスワードリセット用メールの作成
+class CustomPasswordResetView(PasswordResetView):
+    extra_email_context = {
+        "protocol": settings.MAIL_PROTOCOL,
+        "domain": settings.MAIL_DOMAIN,
+        "site_name": settings.MAIL_SITE_NAME
+    }

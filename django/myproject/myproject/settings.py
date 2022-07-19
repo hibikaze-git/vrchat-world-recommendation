@@ -161,3 +161,8 @@ SESSION_SAVE_EVERY_REQUEST = True
 CSRF_TRUSTED_ORIGINS = [
     "https://www.vrchat-world-recommender.com"
 ]
+
+# パスワードリセット用メール
+MAIL_DOMAIN = os.environ.get('MAIL_DOMAIN')
+MAIL_SITE_NAME = os.environ.get('MAIL_SITE_NAME')
+MAIL_PROTOCOL = os.environ.get('MAIL_PROTOCOL')
