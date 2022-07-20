@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import resolve
 
 from ..models import CustomUser
-from ..views import SignUpView, SignUpSuccessView, UserUpdateView
+from ..views import SignUpView, SignUpSuccessView, UserUpdateView, CustomPasswordResetView
 
 
 # Create your tests here.
@@ -53,7 +53,7 @@ class PasswordResetUrls(TestCase):
     """
     def test_reset(self):
         view = resolve('/password_reset/')
-        self.assertEqual(view.func.view_class, auth_views.PasswordResetView)
+        self.assertEqual(view.func.view_class, CustomPasswordResetView)
 
     def test_done(self):
         view = resolve('/password_reset/done/')

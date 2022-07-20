@@ -29,4 +29,8 @@ RUN apt update && apt install -y google-chrome-stable=103.*
 ADD https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip /opt/chrome/
 RUN cd /opt/chrome/ && unzip chromedriver_linux64.zip
 
+# seleniumを用いてテスト
 RUN pip install selenium && pip install chromedriver_binary==103.*
+
+# スクリプトの定期実行
+RUN pip install apscheduler

@@ -13,17 +13,29 @@ recent_search_instance = RecentSearch()
 @staff_member_required
 def update_twitter_post(request):
     """
-    twitterの最新の投稿100件を取得し、データベースに格納
+    最新の投稿を取得
     """
-
-    # 登録済みのtwitter_id
-    all_tweet_id_list = TwitterPost.objects.values_list("tweet_id", flat=True)
-
     # テストの場合は件数を制限
     if request.GET.get("test") == "true":
         recent_search_instance.query_params["max_results"] = 10
     else:
         recent_search_instance.query_params["max_results"] = 100
+
+    create_twitter_post()
+
+    # トップページに移動
+    response = redirect('/')
+
+    return response
+
+
+def create_twitter_post():
+    """
+    twitterの最新の投稿100件を取得し、データベースに格納
+    """
+
+    # 登録済みのtwitter_id
+    all_tweet_id_list = TwitterPost.objects.values_list("tweet_id", flat=True)
 
     # データ取得
     json_data = recent_search_instance.main()
@@ -97,8 +109,3 @@ def update_twitter_post(request):
             emb_url=emb_url,
             emb_html=emb_html
         )
-
-    # トップページに移動
-    response = redirect('/')
-
-    return response
