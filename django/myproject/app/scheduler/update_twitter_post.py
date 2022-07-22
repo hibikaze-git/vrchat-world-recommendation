@@ -9,5 +9,7 @@ def start():
     """
     scheduler = BackgroundScheduler()
 
-    scheduler.add_job(twitter_view.create_twitter_post, 'cron', hour=4, minute=30)
+    scheduler.add_job(twitter_view.create_twitter_post, 'cron', hour=0, minute=30)
+    scheduler.add_job(twitter_view.create_twitter_post, 'cron', hour=12, minute=30)
+
     scheduler.start()

@@ -56,7 +56,7 @@ def create_twitter_post():
         users_dic[user.get("id")] = user.get("username")
 
     # データベースに格納
-    for data in data_list:
+    for data in reversed(data_list):
 
         # 保存積みの投稿ならスキップ
         tweet_id = data.get("id")
