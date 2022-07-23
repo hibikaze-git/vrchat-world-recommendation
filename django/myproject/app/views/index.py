@@ -28,9 +28,15 @@ class IndexView(ListView):
 
         context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
 
+        context["range_list"] = [IndexView.paginate_by, 50, 100]
+
         # クエリ
         if self.request.GET.get("search_word") is not None:
             context["search_word"] = self.request.GET.get("search_word")
+
+        # ページネーション
+        if self.request.GET.get("paginate_by") is not None and self.request.GET.get("paginate_by") != "":
+            context["paginate_by"] = int(self.request.GET.get("paginate_by"))
 
         return context
 
@@ -47,6 +53,10 @@ class IndexView(ListView):
 
         return queryset
 
+    def get_paginate_by(self, queryset):
+
+        return self.request.GET.get("paginate_by", IndexView.paginate_by)
+
 
 class IndexSearchView(ListView):
     """
@@ -57,7 +67,7 @@ class IndexSearchView(ListView):
 
     context_object_name = "orderby_records"
 
-    paginate_by = 25
+    paginate_by = IndexView.paginate_by
 
     # postを有効化
     def post(self, request, *args, **kwargs):
@@ -86,6 +96,10 @@ class IndexSearchView(ListView):
 
         if self.request.POST.get("categories") is not None:
             context["categories"] = self.request.POST.get("categories")
+
+        # ページネーション
+        if self.request.POST.get("paginate_by") is not None and self.request.GET.get("paginate_by") != "":
+            context["paginate_by"] = int(self.request.POST.get("paginate_by"))
 
         return context
 

@@ -25,9 +25,13 @@
         <!-- 検索バー-->
         <div class="d-flex px-6 py-4 gap-2 own-search">
             <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold; border-color: black;" title="表示件数選択">
-                <option value="25" selected>25件</option>
-                <option value="50">50件</option>
-                <option value="100">100件</option>
+                {% for range in range_list %}
+                    {% if range == paginate_by %}
+                        <option value={{range}} selected>{{range}}件</option>
+                    {% else %}
+                        <option value={{range}}>{{range}}件</option>
+                    {% endif %}
+                {% endfor %}
             </select>
 
             {% if not request.user.is_anonymous %}
