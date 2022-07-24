@@ -54,8 +54,10 @@ class IndexView(ListView):
         return queryset
 
     def get_paginate_by(self, queryset):
-
-        return self.request.GET.get("paginate_by", IndexView.paginate_by)
+        if self.request.GET.get("paginate_by") is not None and self.request.GET.get("paginate_by") != "":
+            return self.request.GET.get("paginate_by")
+        else:
+            return IndexView.paginate_by
 
 
 class IndexSearchView(ListView):

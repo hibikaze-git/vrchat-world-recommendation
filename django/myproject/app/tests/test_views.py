@@ -86,6 +86,12 @@ class IndexViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context.get("orderby_records")), 50)
 
+    def test_no_paginate(self):
+        response = self.client.get('/?search_word=&paginate_by=')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context.get("orderby_records")), 25)
+
     def test_index_search(self):
         response = self.client.get('/?search_word=雨&paginate_by=50&page=1')
 
