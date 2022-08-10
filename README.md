@@ -27,6 +27,9 @@
 
 - SECRET_KEY=Djangoで生成したSECRET_KEY
 (開発環境以外では、既に記載されている文字列でなく、Djangoの機能を用いて再生性した文字列を指定してください)
+python3 manage.py shell
+from django.core.management.utils import get_random_secret_key
+get_random_secret_key()
 ```
 - docker-compose.ymlのmariadbパスワード等は適宜変更してください
 - twitterAPIを用いて投稿データを取得したい場合には、Django管理画面でスタッフユーザを作成し、アプリにログインしてください。トップページにデータ更新ボタンが出現します
