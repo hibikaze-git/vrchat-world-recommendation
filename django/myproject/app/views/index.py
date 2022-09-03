@@ -30,6 +30,8 @@ class IndexView(ListView):
 
         context["range_list"] = [IndexView.paginate_by, 50, 100]
 
+        context["queryset_num"] = TwitterPost.objects.all().count()
+
         # クエリ
         if self.request.GET.get("search_word") is not None:
             context["search_word"] = self.request.GET.get("search_word")
@@ -88,6 +90,8 @@ class IndexSearchView(ListView):
         context["category_objects"] = TwitterCategory.objects.filter(user=self.request.user.id)
 
         context["liked_objects"] = TwitterLike.objects.filter(user=self.request.user.id)
+
+        context["queryset_num"] = TwitterPost.objects.all().count()
 
         # クエリ
         if self.request.POST.get("search_word") is not None:

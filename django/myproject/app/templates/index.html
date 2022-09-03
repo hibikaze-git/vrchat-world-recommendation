@@ -23,7 +23,11 @@
 
     {% block contents %}
         <!-- 検索バー-->
-        <div class="d-flex px-6 py-4 gap-2 own-search">
+        <div class="d-flex px-6 py-4 gap-2 own-search align-items-center">
+            <div>
+                掲載数: {{ queryset_num }} 件
+            </div>
+
             <select id="list-select-count" class="form-select own-select-width" style="font-size: 0.75rem; font-weight: bold; border-color: black;" title="表示件数選択">
                 {% for range in range_list %}
                     {% if range == paginate_by %}

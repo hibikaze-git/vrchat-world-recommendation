@@ -79,6 +79,7 @@ class IndexViewTests(TestCase):
         response = self.client.get('/')
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context.get("queryset_num"), 110)
 
     def test_index_paginate(self):
         response = self.client.get('/?search_word=&paginate_by=50&page=2')
