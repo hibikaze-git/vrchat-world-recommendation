@@ -24,13 +24,13 @@ RUN pip install requests
 RUN wget https://dl.google.com/linux/linux_signing_key.pub
 RUN apt-key add linux_signing_key.pub && \
     echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
-RUN apt update && apt install -y google-chrome-stable=103.*
+RUN apt update && apt install -y google-chrome-stable=105.*
 
-ADD https://chromedriver.storage.googleapis.com/103.0.5060.53/chromedriver_linux64.zip /opt/chrome/
+ADD https://chromedriver.storage.googleapis.com/105.0.5195.19/chromedriver_linux64.zip /opt/chrome/
 RUN cd /opt/chrome/ && unzip chromedriver_linux64.zip
 
 # seleniumを用いてテスト
-RUN pip install selenium && pip install chromedriver_binary==103.*
+RUN pip install selenium && pip install chromedriver_binary==105.*
 
 # スクリプトの定期実行
 RUN pip install apscheduler
