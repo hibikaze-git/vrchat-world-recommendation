@@ -47,18 +47,35 @@ services:
       - dev
       - server
 
+  react:
+    build: ./react
+    volumes:
+      - ./react:/home/react
+    ports: 
+      - 3000:3000
+    depends_on:
+      - django
+    #tty: true
+    command: bash -c "sleep 2 && npm start"
+    profiles:
+      - dev
+      - server
+
   nginx:
     image: nginx:1.22.0
     ports:
-      - 80:80
-      - 443:443
+      #- 80:80
+      - 81:80
+      #- 443:443
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      #- ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default-react.conf:/etc/nginx/conf.d/default.conf
       - ./django/myproject/app/static:/web_app_src/static
       #- /path/ownCA/own_com/server.crt:/etc/nginx/conf.d/server.crt:Z
       #- /path/ownCA/own_com/server.key:/etc/nginx/conf.d/server.key:Z
     depends_on:
       - django
       - mariadb
+      - react
     profiles:
       - server

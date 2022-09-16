@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    #'django'
+    'django',
+    'localhost'
 ]
 
 
@@ -159,10 +160,21 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 # ドメイン設定
 CSRF_TRUSTED_ORIGINS = [
-    "https://www.vrchat-world-recommender.com"
+    "https://www.vrchat-world-recommender.com",
+    "http://localhost:81"
 ]
 
 # パスワードリセット用メール
 MAIL_DOMAIN = os.environ.get('MAIL_DOMAIN')
 MAIL_SITE_NAME = os.environ.get('MAIL_SITE_NAME')
 MAIL_PROTOCOL = os.environ.get('MAIL_PROTOCOL')
+
+# React用の設定
+CSRF_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+
+# PROD ONLY
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True

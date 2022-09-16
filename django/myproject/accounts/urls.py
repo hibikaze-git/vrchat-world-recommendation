@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import SignUpView, SignUpSuccessView, UserUpdateView
+from .views import SignUpView, SignUpSuccessView, UserUpdateView, get_csrf, login_view, logout_view, session_view, whoami_view
 
 app_name = 'accounts'
 
@@ -20,4 +20,11 @@ urlpatterns = [
     # ユーザー情報を更新
     path('update/<int:pk>/',
          UserUpdateView.as_view(), name='update'),
+
+    # react用
+    path('accounts/csrf/', get_csrf, name='react-csrf'),
+    path('accounts/react_login/', login_view, name='react-login'),
+    path('accounts/react_logout/', logout_view, name='react-logout'),
+    path('accounts/react_session/', session_view, name='react-session'),
+    path('accounts/react_whoami/', whoami_view, name='react-whoami'),
 ]
