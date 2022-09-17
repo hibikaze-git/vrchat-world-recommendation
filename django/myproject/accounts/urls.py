@@ -23,8 +23,8 @@ urlpatterns = [
 
     # react用
     path('accounts/csrf/', get_csrf, name='react-csrf'),
-    path('accounts/react_login/', login_view, name='react-login'),
-    path('accounts/react_logout/', logout_view, name='react-logout'),
-    path('accounts/react_session/', session_view, name='react-session'),
-    path('accounts/react_whoami/', whoami_view, name='react-whoami'),
+    path('accounts/login/', login_view, name='react-login'),
+    path('accounts/logout/', logout_view, name='react-logout'),
+    path('accounts/session/', session_view, name='react-session'),
+    path('accounts/whoami/', whoami_view, name='react-whoami'),
 ]

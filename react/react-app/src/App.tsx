@@ -23,6 +23,7 @@ class App extends React.Component<{}, {
     this.getSession();
   }
 
+  // csrfトークンを取得
   getCSRF = () => {
     fetch("/accounts/csrf/", {
       credentials: "same-origin",
@@ -37,8 +38,9 @@ class App extends React.Component<{}, {
     });
   }
 
+  // ログインしているかを確認
   getSession = () => {
-    fetch("/accounts/react_session/", {
+    fetch("/accounts/session/", {
       credentials: "same-origin",
     })
     .then((res) => res.json())
@@ -56,8 +58,9 @@ class App extends React.Component<{}, {
     });
   }
 
+  // ユーザー名を取得して表示
   whoami = () => {
-    fetch("/accounts/react_whoami/", {
+    fetch("/accounts/whoami/", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -88,9 +91,10 @@ class App extends React.Component<{}, {
     }
   }
 
+  // ログイン
   login = (event: any) => {
     event.preventDefault();
-    fetch("/accounts/react_login/", {
+    fetch("/accounts/login/", {
       method: "POST",
       // @ts-ignore
       headers: {
@@ -111,8 +115,9 @@ class App extends React.Component<{}, {
     });
   }
 
+  // ログアウト
   logout = () => {
-    fetch("/accounts/react_logout", {
+    fetch("/accounts/logout", {
       credentials: "same-origin",
     })
     .then(this.isResponseOk)
@@ -127,6 +132,7 @@ class App extends React.Component<{}, {
   };
 
   render() {
+    // ログイン済みかを確認
     if (!this.state.isAuthenticated) {
       return (
         <div className="container mt-3">
@@ -154,6 +160,8 @@ class App extends React.Component<{}, {
         </div>
       );
     }
+
+    // ログインできていればコンテンツを表示
     return (
       <div className="container mt-3">
         <h1>React Cookie Auth</h1>
