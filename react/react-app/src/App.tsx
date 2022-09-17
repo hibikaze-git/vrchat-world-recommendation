@@ -31,7 +31,6 @@ class App extends React.Component<{}, {
     .then((res) => {
       let csrfToken = res.headers.get("X-CSRFToken");
       this.setState({csrf: csrfToken});
-      console.log(csrfToken);
     })
     .catch((err) => {
       console.log(err);
@@ -45,7 +44,6 @@ class App extends React.Component<{}, {
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       if (data.isAuthenticated) {
         this.setState({isAuthenticated: true});
       } else {
@@ -106,7 +104,6 @@ class App extends React.Component<{}, {
     })
     .then(this.isResponseOk)
     .then((data) => {
-      console.log(data);
       this.setState({isAuthenticated: true, username: "", password: "", error: ""});
     })
     .catch((err) => {
@@ -122,7 +119,6 @@ class App extends React.Component<{}, {
     })
     .then(this.isResponseOk)
     .then((data) => {
-      console.log(data);
       this.setState({isAuthenticated: false});
       this.getCSRF();
     })

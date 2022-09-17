@@ -62,12 +62,14 @@ class CustomPasswordResetView(PasswordResetView):
 
 
 # react用
+# csrfトークンを発行
 def get_csrf(request):
     response = JsonResponse({'detail': 'CSRF cookie set'})
     response['X-CSRFToken'] = get_token(request)
     return response
 
 
+# ログイン
 @require_POST
 def login_view(request):
     data = json.loads(request.body)
@@ -86,6 +88,7 @@ def login_view(request):
     return JsonResponse({'detail': 'Successfully logged in.'})
 
 
+# ログアウト
 def logout_view(request):
     if not request.user.is_authenticated:
         return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
@@ -94,6 +97,7 @@ def logout_view(request):
     return JsonResponse({'detail': 'Successfully logged out.'})
 
 
+# ログインしているかを確認
 @ensure_csrf_cookie
 def session_view(request):
     if not request.user.is_authenticated:
@@ -102,6 +106,7 @@ def session_view(request):
     return JsonResponse({'isAuthenticated': True})
 
 
+# ログインしているユーザー名を取得
 def whoami_view(request):
     if not request.user.is_authenticated:
         return JsonResponse({'isAuthenticated': False})
