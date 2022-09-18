@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react'
+
 import { useSelector, useDispatch } from 'react-redux';
+
 import Auth from '../auth/Auth';
 import { AppDispatch } from '../../app/store';
 import { getSession, getCSRF, selectIsAuthenticated, fetchAsyncLogout, whoami } from '../auth/authSlice';
 
 const Core: React.FC = () => {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatch = useDispatch();
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  console.log("core render")
 
   useEffect(() => {
     dispatch(getSession());
-    dispatch(getCSRF());
-  }, []);
+
+    if (!isAuthenticated) {
+      dispatch(getCSRF());
+    }
+  }, [isAuthenticated]);
 
   if (!isAuthenticated) {
     return (

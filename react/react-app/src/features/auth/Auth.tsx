@@ -1,10 +1,13 @@
 import React from 'react';
-import { AppDispatch } from '../../app/store';
+
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './Auth.module.css';
 import Modal from 'react-modal';
 import { Formik } from 'formik';
 import { TextField, Button, CircularProgress } from '@mui/material';
+
+import { AppDispatch } from '../../app/store';
+import { store } from '../../app/store';
 import {
   selectIsLoadingAuth,
   selectOpenSignIn,
@@ -14,7 +17,6 @@ import {
   resetOpenSignIn,
   fetchAsyncLogin,
   selectCsrf,
-  selectIsAuthenticated
 } from './authSlice';
 
 const customStyles = {
@@ -34,12 +36,16 @@ const customStyles = {
 };
 
 const Auth: React.FC = () => {
-  Modal.setAppElement("#root");
   const openSignIn = useSelector(selectOpenSignIn);
   const isLoadingAuth = useSelector(selectIsLoadingAuth);
   const csrfToken = useSelector(selectCsrf);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatch = useDispatch();
+
+  const isAuthenticated = store.getState().auth.isAuthenticated;
+
+  Modal.setAppElement("#root");
+
+  console.log("modal render")
 
   return (
     <div>

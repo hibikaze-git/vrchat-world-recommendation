@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
 import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { PROPS_AUTHEN } from "../types";
+import { RootState } from "../../app/store";
 
 export const getSession = createAsyncThunk("/auth/session", async () => {
   console.log("getSession");
