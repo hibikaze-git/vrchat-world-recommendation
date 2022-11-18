@@ -15,6 +15,6 @@ def start():
 
     scheduler = BackgroundScheduler()
 
-    scheduler.add_job(twitter_view.create_twitter_post, 'interval', hours=12, start_date=start_time)
+    scheduler.add_job(twitter_view.create_twitter_post, 'interval', hours=6, start_date=start_time)
 
     scheduler.start()
